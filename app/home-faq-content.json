@@ -1,0 +1,556 @@
+{
+  "intro": {
+    "GE": "ხშირად დასმული კითხვები Aylopet-ის პროდუქტებისა და სერვისების შესახებ.",
+    "EN": "Answers to common questions about Aylopet products and services."
+  },
+  "categoryOrder": [
+    "aylopetAI",
+    "aylopetPro",
+    "aylopetFood",
+    "ourRecipes",
+    "subscriptionAccount",
+    "creatingPlan",
+    "packagingShipping",
+    "returns"
+  ],
+  "GE": [
+    {
+      "id": "aylopetAI",
+      "title": "AylopetAI",
+      "questions": [
+        {
+          "q": "რა არის AylopetAI?",
+          "a": "AylopetAI არის ჩვენი AI-ზე დაფუძნებული ნუტრიციოლოგი, რომელიც უზრუნველყოფს პერსონალიზებულ საკვებრივ რეკომენდაციებს თქვენი ცხოველისთვის."
+        },
+        {
+          "q": "რით განსხვავდება AylopetAI ვეტ-ნუტრიციოლოგის კონსულტაციისგან?",
+          "a": "AylopetAI გთავაზობთ 24/7 ხელმისაწვდომობას და ინდივიდუალურ ანალიზს ყველა ცხოველისთვის. ვეტ-ნუტრიციოლოგთან კონსულტაცია ეფუძნება ვიზიტებს და დროით შეზღუდულია."
+        },
+        {
+          "q": "როგორ ახერხებს პლატფორმა ჩემი ცხოველისთვის ინდივიდუალური რაციონის შედგენას?",
+          "a": "პლატფორმა იყენებს თქვენი ცხოველის პროფილს - ასაკი, წონა, აქტივობა, ჯანმრთელობის ისტორია - AI ალგორითმების საშუალებით პერსონალიზებული რაციონის შესაქმნელად."
+        },
+        {
+          "q": "რით განსხვავდება AylopetAI-ის პერსონალიზებული კვება მაღაზიაში ნაყიდი საკვებისგან?",
+          "a": "პერსონალიზებული კვება იქმნება თქვენი ცხოველის უნიკალური საჭიროებების მიხედვით, ხოლო მაღაზიის საკვები არის უნივერსალური ფორმულა."
+        },
+        {
+          "q": "რამდენად უსაფრთხოა ხელოვნური ინტელექტის მიერ გაცემული იმფორმაცია?",
+          "a": "AylopetAI ეფუძნება მეცნიერულად დადასტურებულ ნუტრიციოლოგიურ პრინციპებს და არასოდეს ცვლის პროფესიონალი ვეტერინარის დიაგნოსტიკას."
+        },
+        {
+          "q": "შეიძლება თუ არა ვენდოთ ხელოვნურ ინტელექტს?",
+          "a": "AI საჭიროებს ვეტერინარის მეთვალყურეობას კრიტიკულ გადაწყვეტილებებზე. AylopetAI განკუთვნილია ყოველდღიური კვების ხელმძღვანელობისთვის, არა დიაგნოსტიკისთვის."
+        },
+        {
+          "q": "ითვალისწინებს თუ არა სისტემა ჯანმრთელობის ისტორიას და ალერგიებს ფორმულის შედგენისას?",
+          "a": "დიახ, სისტემა ითვალისწინებს ალერგიებს, ქრონიკულ პათოლოგიებს და სხვა ფაქტორებს პერსონალიზებული რაციონის შესაქმნელად."
+        },
+        {
+          "q": "სად გადის ზღვარი AylopetAI-ს რეკომენდაციასა და ვეტ-ექიმს შორის?",
+          "a": "AylopetAI არის საკვებრივი ხელმძღვანელობა. ნებისმიერი ჯანმრთელობის პრობლემისთვის უნდა მიმართოთ ვეტერინარს."
+        },
+        {
+          "q": "სწავლობს თუ არა AylopetAI ჩემი ცხოველის მონაცემებს?",
+          "a": "მონაცემები იყენება თქვენი ცხოველის პროფილის გასაუმჯობესებლად და რეკომენდაციების დასახველებლად, შესაბამისად კონფიდენციალურობის პოლიტიკის მიხედვით."
+        },
+        {
+          "q": "როგორ ახერხებს AI იმ ინტუიციის ჩანაცვლებას, რომელიც ვეტ-ნუტრიციოლოგს პრაქტიკული გამოცდილებით აქვს?",
+          "a": "AI ეფუძნება მილიონობით მონაცემს და მეცნიერულ კავშირებს. ვეტ-ნუტრიციოლოგის პრაქტიკა უფრო კონტექსტურია; ორივე შეიძლება ერთად იმუშაოს."
+        },
+        {
+          "q": "რა ხდება, თუ სისტემაში შეცდომით შევიყვანე მონაცემები? გადაამოწმებს თუ არა ამას AylopetAI?",
+          "a": "ჩვენ გირჩევნიათ პროფილის პერიოდულად გადამოწმება. სისტემა აღნიშნავს არათანმიმდევრულ მონაცემებს და მოითხოვს დადასტურებას."
+        },
+        {
+          "q": "რატომ ითვლება AylopetAI-ს მიერ შედგენილი გეგმა „ცოცხალ“ პროცესად და არა ერთჯერად რეცეპტად?",
+          "a": "თქვენი ცხოველის საჭიროებები იცვლება - წონა, აქტივობა, სეზონი. გეგმა განახლებადია და ადაპტირდება ცვლილებებზე."
+        }
+      ]
+    },
+    {
+      "id": "aylopetPro",
+      "title": "Aylopet Pro",
+      "questions": [
+        {
+          "q": "რა არის Aylopet Pro?",
+          "a": "Aylopet Pro არის ჭკვიანი ყელსაბამი GPS თრექინგით, აქტივობის მონიტორინგით და AI-საკვებრივი რეკომენდაციების ინტეგრაციით."
+        },
+        {
+          "q": "როგორ მუშაობს Aylopet Pro?",
+          "a": "ყელსაბამი აკვირდება თქვენი ძაღლის მოძრაობას, მანძილს და აქტივობას; მონაცემები სინქრონიზდება აპლიკაციაში და გამოიყენება კალორიული საჭიროებების გამოსათვლელად."
+        },
+        {
+          "q": "საჭიროებს თუ არა ჭკვიანი ყელსაბამი მუდმივ ინტერნეტ კავშირს?",
+          "a": "ყელსაბამს სჭირდება Bluetooth ან WiFi სინქრონიზაციისთვის. GPS მუშაობს LTE-ზე; ზოგიერთი ფუნქცია ხელმისაწვდომია ოფლაინ რეჟიმშიც."
+        },
+        {
+          "q": "არის თუ არა Aylopet Pro-ს ყელსაბამი წყალგამძლე და რამდენად გამძლეა ის აქტიური ცხოველებისთვის?",
+          "a": "დიახ, ყელსაბამი არის IP67 წყალგამძლე და დაპროექტებულია აქტიური ცხოველებისთვის."
+        },
+        {
+          "q": "რა უპირატესობებს მაძლევს Aylopet Pro GPS თრექერისგან?",
+          "a": "Aylopet Pro აერთიანებს GPS თრექინგს, აქტივობის მონიტორინგს და პირდაპირ უკავშირდება ჩვენს AI ნუტრიციოლოგიას პერსონალიზებული საკვებრივი რეკომენდაციებისთვის."
+        },
+        {
+          "q": "როგორ ხდება ყელსაბამის დამუხტვა?",
+          "a": "ყელსაბამი დამუხტულია USB-C საკაბელოთი. სრული მუხტი გაგრძელდება რამდენიმე დღე, მოხმარებიდან გამომდინარე."
+        }
+      ]
+    },
+    {
+      "id": "aylopetFood",
+      "title": "Aylopet Food",
+      "questions": [
+        {
+          "q": "რატომ არის „ცოცხალი კვება“ (Fresh Food) Aylopet-ის არჩევანი?",
+          "a": "პასტერიზებული ნატურალური საკვები ინარჩუნებს საკვები ნივთიერებებს და უფრო ჯანსაღია ვიდრე მშრალი ინდუსტრიული საკვები."
+        },
+        {
+          "q": "რას ნიშნავს „სუფთა ინგრედიენტი“ და როგორია კვების ხარისხის Aylopet-ისეული სტანდარტი?",
+          "a": "სუფთა ინგრედიენტი ნიშნავს ჰუმანური ხარისხის, მარცვლეულის გარეშე, არა GMO. Aylopet იყენებს მკაცრ ხელოვნური დამატებების გარეშე პროცესს."
+        },
+        {
+          "q": "საჭიროებს თუ არა Aylopet-ის რაციონი დამატებით მომზადებას?",
+          "a": "არა. საკვები მომზადებულია მიწოდებისთვის; შეგიძლიათ გახსნათ და მიაწოდოთ ოთახის ტემპერატურაზე."
+        },
+        {
+          "q": "როგორ უნდა შევინახოთ Aylopet-ის საკვები სწორად?",
+          "a": "შეინახეთ მაცივარში 0–4°C; გახსნის შემდეგ გამოიყენეთ 3–4 დღის განმავლობაში."
+        },
+        {
+          "q": "რატომ ვერ ჩაანაცვლებს სახლში მომზადებული საკვები Aylopet-ის ფორმულას?",
+          "a": "ჩვენი ფორმულა დაბალანსებულია სრული ამინომჟავებით, ვიტამინებითა და მინერალებით; სახლის რეცეპტებს ხშირად აკლია კონკრეტული ნუტრიციული ბალანსი."
+        },
+        {
+          "q": "არის თუ არა Aylopet-ის რაციონი შესაბამისი ყველა ასაკობრივი ჯგუფისთვის (ლეკვი, ზრდასრული, სენიორი)?",
+          "a": "დიახ, ჩვენ გვაქვს ფორმულები ყველა ცხოველისთვის; AI აირჩევს შესაბამის ვარიანტს თქვენი ცხოველის ასაკის მიხედვით."
+        },
+        {
+          "q": "რა ღირს ინდივიდუალური კვების გეგმა?",
+          "a": "ფასები დამოკიდებულია ცხოველის ზომასა და შერჩეულ გეგმაზე. დეტალები ხელმისაწვდომია პროფილში."
+        },
+        {
+          "q": "მჭირდება თუ არა ვეტ ექიმთან გასაუბრება სანამ თქვენ საკვებზე გადმოვალთ?",
+          "a": "რეკომენდებულია, თუკი ცხოველს აქვს ქრონიკული პათოლოგია ან ალერგია. ჩვენი AI შეუძლია გაითვალისწინოს ვეტერინარის შეფასებებიც."
+        },
+        {
+          "q": "როგორ გადავიყვანოთ მშრალი კვებიდან თქვენს ცოცხალ?",
+          "a": "ნაბიჯ-ნაბიჯ 7–10 დღიანი გადასვლით: ყოველდღიურად უნდა შეამციროთ მშრალი საკვების წილი და გაზარდოთ ცოცხალი საკვების წილი."
+        },
+        {
+          "q": "როგორ ხდება ულუფების კონტროლი და საჭიროა თუ არა საკვების აწონვა?",
+          "a": "AylopetAI გეხმარებათ ულუფების დადგენაში. დეტალური აწონვა არ არის აუცილებელი; შეგიძლიათ გამოიყენოთ მარტივი საზომი ჭურჭელი."
+        }
+      ]
+    },
+    {
+      "id": "ourRecipes",
+      "title": "ჩვენი რეცეპტები",
+      "questions": [
+        {
+          "q": "რა ტიპის რეცეპტებს გვთავაზობს Aylopet?",
+          "a": "ჩვენ გვაქვს სრული საკვები (საქონლის, ქათმის, თევზის), კომბინირებული ფორმულები და სპეციალიზებული ვარიანტები უფრო მგრძნობიარე ძაღლებისთვის."
+        },
+        {
+          "q": "როგორ ხდება ინგრედიენტების შერჩევა და მათი ხარისხის კონტროლი?",
+          "a": "ინგრედიენტები ირჩევა ჰუმანური ხარისხის მომწოდებლებისგან; ხარისხი მონიტორინგდება წარმოების ყოველ ეტაპზე."
+        },
+        {
+          "q": "შეიცავს თუ არა თქვენი რეცეპტები მარცვლეულს?",
+          "a": "არა, ჩვენი ფორმულები უმარცვლოა (grain-free); ყველაფერი დაფუძნებულია ხორცის, ბოსტნეულისა და ხილის კომბინაციაზე."
+        },
+        {
+          "q": "რით განსხვავდება Aylopet-ის რეცეპტი ნებისმიერი სხვა რეცეპტისგან?",
+          "a": "ჩვენი რეცეპტები იქმნება პერსონალიზებულად თქვენი ცხოველისთვის; ისინი არის მარცვლეულის გარეშე, შემოწმებული და დაბალანსებული."
+        }
+      ]
+    },
+    {
+      "id": "subscriptionAccount",
+      "title": "გამოწერა და ანგარიში",
+      "questions": [
+        {
+          "q": "რა არის Aylopet-ის გამოწერის მოდელი?",
+          "a": "გაქვთ ყოველკვირეული ან ორკვირეული მიწოდების გამოწერა; შეგიძლიათ შეცვალოთ, გაჩერდოთ ან გააუქმოთ ნებისმიერ დროს."
+        },
+        {
+          "q": "როგორ უნდა გავააქტიურო კვების ან სერვისის ინდივიდუალური გამოწერა?",
+          "a": "პროფილში აირჩიეთ პროდუქტი, შეავსეთ ცხოველის ინფორმაცია და დაასრულეთ გამოწერა."
+        },
+        {
+          "q": "როგორ შემიძლია ცვლილებების შეტანა აქტიურ გამოწერაში?",
+          "a": "შედით პროფილში → გამოწერები → შეარჩიეთ გამოწერა და შეცვალეთ რაციონი, სიხშირე ან მისამართი."
+        },
+        {
+          "q": "შესაძლებელია რამდენიმე გამოწერის ერთად მართვა?",
+          "a": "დიახ, შეგიძლიათ რამდენიმე ცხოველისთვის ცალ-ცალკე გამოწერების მართვა ერთი ანგარიშიდან."
+        },
+        {
+          "q": "როგორ გავიგო, როდის მოვა ჩემი შემდეგი შეკვეთა?",
+          "a": "თქვენ მიიღებთ ელფოსტის შეტყობინებას; გამოწერის დეტალები და მისაწოდებელი თარიღი ხელმისაწვდომია პროფილში."
+        },
+        {
+          "q": "რა პრინციპით ხდება მომსახურების საფასურის გადახდა?",
+          "a": "საფასური იხდება ყოველ გამოწერის ციკლზე (კვირაში/ორ კვირაში ერთხელ); მიეწოდება ბანკის ბარათით ან სხვა გადახდის საშუალებით."
+        },
+        {
+          "q": "როგორ მოვიქცე, თუ სამოგზაუროდ მივდივარ?",
+          "a": "შეგიძლიათ გაჩერდეთ გამოწერა პროფილიდან დროებით ან შეცვალოთ მიწოდების მისამართი."
+        },
+        {
+          "q": "მაქვს თუ არა შესაძლებლობა, რომ ნებისმიერ დროს გავაუქმო ან ხელახლა გავააქტიურო ჩემი გამოწერა?",
+          "a": "დიახ, გამოწერის გაუქმება და ხელახლა გააქტიურება შესაძლებელია პროფილიდან ნებისმიერ დროს."
+        },
+        {
+          "q": "დამავიწყდა პირადი ანგარიშის პაროლი, როგორ შემიძლია აღდგენა?",
+          "a": "დააწკაპუნეთ „პაროლის დაკარგვა“ შესვლის გვერდზე; მიიღებთ დაკარგული პაროლის აღსადგენ ბმულს ელფოსტაზე."
+        }
+      ]
+    },
+    {
+      "id": "creatingPlan",
+      "title": "გეგმის შექმნა",
+      "questions": [
+        {
+          "q": "როგორ უნდა დავარეგისტრირო ჩემი ოთხფეხა მეგობარი და როგორ დავიწყო კვების ინდივიდუალური გეგმის შედგენა?",
+          "a": "შექმენით პროფილი, დაამატეთ ცხოველი (ასაკი, წონა, ჯანმრთელობა) და მიიღეთ პირველი რეკომენდაცია რამდენიმე წუთში."
+        },
+        {
+          "q": "როგორ დაადგენთ ჩემი ძაღლის კვებით მოთხოვნილებებს?",
+          "a": "გამოვიყენებთ თქვენი ცხოველის პროფილს, Aylopet Pro-ს მონაცემებს (თუ არის) და AI ალგორითმებს NRC გიდლაინების მიხედვით."
+        },
+        {
+          "q": "მაქვს თუ არა შესაძლებლობა, რომ ნებისმიერ დროს შევცვალო, შევაჩერო ან გავაუქმო ჩემი გამოწერები?",
+          "a": "დიახ, გეგმა და გამოწერები მოქნილია; შეგიძლიათ შეცვალოთ, გაჩერდეთ ან გააუქმოთ პროფილიდან ნებისმიერ დროს."
+        }
+      ]
+    },
+    {
+      "id": "packagingShipping",
+      "title": "შეფუთვა და მიწოდება",
+      "questions": [
+        {
+          "q": "როგორ მუშაობს მიწოდების სისტემა და მუშაობს თუ არა მთელ ქვეყანაში?",
+          "a": "მიწოდება ხორციელდება მთელს საქართველოში. სიზუსტე მისამართზე და კონტაქტზე დამოკიდებულია."
+        },
+        {
+          "q": "როგორ დავრწმუნდე, რომ შეკვეთის მიღებისას საკვები დაუზიანებელია?",
+          "a": "საკვები მიწოდებულია გაგრილებული/გაყინულ ამანათში. თუ პაკეტი დაზიანებულია, დაუყოვნებლივ მოგვწერეთ."
+        },
+        {
+          "q": "როგორ მოვიქცე, თუ ამანათის მოსვლის დროს სახლში არ ვარ?",
+          "a": "მიწოდების თარიღის ცვლილება შესაძლებელია აპლიკაციაში. ზოგიერთ მისამართზე შესაძლებელია კურიერის დაკავშირება."
+        },
+        {
+          "q": "რამდენად მოქნილია მიწოდების გრაფიკი?",
+          "a": "შეგიძლიათ აირჩიოთ ყოველკვირეული ან ორკვირეული მიწოდება და შეცვალოთ თარიღი გამოწერის დეტალებიდან."
+        },
+        {
+          "q": "რამდენად ეკომეგობრულია Aylopet-ის შეფუთვა?",
+          "a": "ჩვენ ვიყენებთ ან ხელახლა გამოყენებად ან ეკოლოგიურად დაშლად მასალებს შეფუთვისთვის."
+        },
+        {
+          "q": "რა უნდა გავაკეთო, თუ ამანათი დაზიანდა ან მიწოდება დაგვიანდა?",
+          "a": "დაუყოვნებლივ დაგვიკავშირდით support@aylopet.ge-ზე. დაზიანებული ან არასრული შეკვეთა უცვლელი იქნება."
+        }
+      ]
+    },
+    {
+      "id": "returns",
+      "title": "უკან დაბრუნება",
+      "questions": [
+        {
+          "q": "შესაძლებელია თუ არა საკვების უკან დაბრუნება?",
+          "a": "გახსნილი საკვებს ვიღებთ დაბრუნებაში მხოლოდ გარკვეულ პირობებში; დაუზიანებელი, დაუხსნელი პაკეტები დაბრუნებადია."
+        },
+        {
+          "q": "როგორია „ჭკვიანი ყელსაბამის“ (Aylopet Pro) დაბრუნების ან შეცვლის პირობები?",
+          "a": "Aylopet Pro-ს აქვს გარანტია; დეტალური პირობები მითითებულია პროდუქტის გვერდზე და შესყიდვისას."
+        },
+        {
+          "q": "როგორ მოვიქცე, თუ ამანათი დაზიანებულია ან შეკვეთა არასრულია?",
+          "a": "გამოგვიგზავნეთ ფოტოები support@aylopet.ge-ზე. ჩვენ ჩავანაცვლებთ ან დავაბრუნებთ ღირებულებას."
+        },
+        {
+          "q": "რა ვადებში და რა ფორმით ხდება გადახდილი თანხის უკან დაბრუნება?",
+          "a": "დაბრუნება ხორციელდება 7–14 სამუშაო დღეში იმავე გადახდის საშუალებით."
+        },
+        {
+          "q": "შემიძლია თუ არა ხელოვნურ ინტელექტთან (ჩათთან) წვდომის შეჩერება და როგორ მოქმედებს ეს ჩემს ანგარიშზე?",
+          "a": "დიახ, AI Chat-ის გამორთვა შესაძლებელია პარამეტრებიდან. თქვენი საკვებრივი გეგმა დარჩება ხელმისაწვდომი."
+        }
+      ]
+    }
+  ],
+  "EN": [
+    {
+      "id": "aylopetAI",
+      "title": "AylopetAI",
+      "questions": [
+        {
+          "q": "What is AylopetAI?",
+          "a": "AylopetAI is your dog's personal AI nutritionist, built with international experts. The result is a narrowly specialized artificial intelligence that provides individualized feeding recommendations based solely on your dog's data."
+        },
+        {
+          "q": "How is AylopetAI different from a consultation with a veterinary nutritionist?",
+          "a": "AylopetAI's main strengths are speed and availability: it is your dog's personal nutritionist, available 24/7 with no queues or waiting. Unlike a one-off static consultation, our AI uses machine learning—it continuously learns from your dog's data and updates recommendations dynamically in line with international veterinary standards. In Georgia there is also a critical shortage of veterinary nutritionists, and AylopetAI makes this professional knowledge easy for everyone to access."
+        },
+        {
+          "q": "How does the platform build an individualized ration for my pet?",
+          "a": "Selecting an individualized ration starts with a detailed digital conversation. AylopetAI analyzes multifaceted data about your dog: age, breed, activity, health history, and many other specific parameters. Based on this information, the algorithm selects exactly the feeding formula from our scientifically developed knowledge base that best matches your companion's individual biological needs."
+        },
+        {
+          "q": "How does AylopetAI's personalized nutrition differ from store-bought pet food?",
+          "a": "The main difference is the approach: store food is made with a universal formula aimed at mass consumption, not your dog's individual needs. AylopetAI breaks that pattern—it selects raw, pasteurized, Non-GMO nutrition tailored specifically for your companion. While industrial food undergoes high-temperature processing, our natural food is prepared at lower temperatures so it retains all heat-sensitive nutrients—a scientifically sound choice for your dog's health."
+        },
+        {
+          "q": "How safe is information provided by artificial intelligence?",
+          "a": "Every recommendation from AylopetAI is designed to be as safe as possible because its algorithms are built on leading international standards in veterinary nutrition. The AI does not operate in isolation; it is trained by professional domain experts and relies only on verified scientific data. The system also accounts for your dog's individual restrictions and health history, which rules out unfounded or risky advice."
+        },
+        {
+          "q": "Can we trust artificial intelligence?",
+          "a": "Absolutely. AylopetAI reduces human error and bases decisions only on international scientific protocols. It is an objective expert working 24/7 that safeguards your dog's health with maximum technological precision."
+        },
+        {
+          "q": "Does the system take health history and allergies into account when formulating a diet?",
+          "a": "Yes. The system accounts for allergies, chronic conditions, and other factors when creating a personalized ration."
+        },
+        {
+          "q": "Where is the line between AylopetAI's recommendations and a veterinarian?",
+          "a": "AylopetAI is a digital nutritionist, meaning its scope is exclusively nutrition and related topics. It helps you choose an ideal ration, but for any medical problem, diagnosis, or emergency you must contact a veterinarian. AylopetAI is a tool for nutritional prevention, not a substitute for clinical treatment."
+        },
+        {
+          "q": "Does AylopetAI learn from my pet's data?",
+          "a": "Yes—with your consent the system retains data and continuously improves through machine learning. AylopetAI not only analyzes current needs but learns from every new data point to maximize dietary precision and deliver an ever-improving individualized experience for your dog."
+        },
+        {
+          "q": "How can AI replace the intuition a veterinary nutritionist gains from experience?",
+          "a": "AI doesn't replace intuition—it replaces subjective judgment with verifiable data and scientific precision. Where human experience relies on subjective perception, AylopetAI analyzes vast research and biometric relationships in seconds. Our system is a synthesis of a nutritionist's contextual knowledge and technological power."
+        },
+        {
+          "q": "What if I entered data incorrectly in the system? Will AylopetAI catch that?",
+          "a": "AylopetAI includes smart validation that checks data for logical consistency. If entered information (for example, the relationship between weight and age) falls outside biologically plausible norms, the system flags it immediately and asks you to verify. That extra barrier prevents mistakes and ensures your dog receives a ration matched to their real parameters."
+        },
+        {
+          "q": "Why is a plan created by AylopetAI considered a living process rather than a one-time recipe?",
+          "a": "Your dog's needs change—with weight, activity, season, goals, and similar nuances. AylopetAI adapts and updates the plan accordingly."
+        }
+      ]
+    },
+    {
+      "id": "aylopetPro",
+      "title": "AylopetPro",
+      "questions": [
+        {
+          "q": "What is Aylopet Pro?",
+          "a": "Aylopet Pro is a smart collar equipped with GPS monitoring. It helps you always know your dog's exact location and track daily activity. Combined with AylopetAI, the device lets us estimate your companion's individual energy expenditure and recommend a ration that aligns perfectly with your goals."
+        },
+        {
+          "q": "How does Aylopet Pro work?",
+          "a": "The collar continuously monitors your dog's activity, and data syncs automatically with AylopetAI. Based on formulas developed by nutritionists, the AI calculates required calories and tells you what adjustments your ration may need."
+        },
+        {
+          "q": "Does the smart collar require constant internet access?",
+          "a": "Coming Soon"
+        },
+        {
+          "q": "Is the Aylopet Pro collar waterproof, and how durable is it for active dogs?",
+          "a": "Yes, the collar is fully waterproof and designed specifically for active pets."
+        },
+        {
+          "q": "What advantages does Aylopet Pro offer compared to a simple GPS tracker?",
+          "a": "Aylopet Pro combines GPS tracking, activity monitoring, and a direct link to our AI nutritionist for personalized feeding recommendations."
+        },
+        {
+          "q": "How is the collar charged?",
+          "a": "The collar charges via a USB-C cable. On a full charge it runs for several days depending on usage."
+        }
+      ]
+    },
+    {
+      "id": "aylopetFood",
+      "title": "Aylopet Food",
+      "questions": [
+        {
+          "q": "Why is fresh food Aylopet's choice?",
+          "a": "Our team believes there is a big difference between simply feeding your dog, surviving, and eating healthily. We want to offer the best nutrition for your dogs: natural fresh food is neither dry nor canned food, nor raw meat alone—it is a ration made from natural ingredients processed at low temperatures (pasteurized at 70–75°C). This process destroys hazardous bacteria while preserving the product's biological value. As rates of cancer, diabetes, and obesity in pets rise alarmingly, research points to risks of industrial pet food (heavy metals, shorter lifespans). Natural fresh food is the safest, most natural way to support your companion's energy and longevity—supported by many studies."
+        },
+        {
+          "q": "What does a clean ingredient mean, and what is Aylopet's quality standard?",
+          "a": "Aylopet food is Human-Grade—fit for human consumption—where every ingredient is chosen with the highest care. We use only raw materials we would buy for our own family. Our rations exclude GMOs, artificial additives, preservatives, synthetic vitamins, artificial flavor enhancers, and mechanically separated meat. Meals are produced in facilities that meet human-food industry standards; ingredients are processed at low temperatures to preserve nutrients and bioavailability. After preparation, food is frozen so you receive the freshest possible product without chemical additives. This quality differs radically from dry and canned foods that sit on shelves for years."
+        },
+        {
+          "q": "Does Aylopet's ration require additional preparation?",
+          "a": "No—the food is fully prepared for feeding. You only need to follow this rule: move the portion from the freezer to the refrigerator (4°C) one day before feeding; by morning it will be ready. After thawing, keep the product in the refrigerator and use it within 5 days."
+        },
+        {
+          "q": "How should I store Aylopet food correctly?",
+          "a": "Place the product in the freezer immediately upon receipt and store it at −18°C. Food stored at −18°C is good for up to one year; after thawing, store it in the refrigerator at 4°C and use within 4–5 days."
+        },
+        {
+          "q": "Why can't home-cooked food replace Aylopet's formula?",
+          "a": "Cooking at home is a wonderful expression of care, but building a professional formula is a complex, multi-step process. Every Aylopet recipe is calculated by nutritionists—hard to replicate at home without specialized knowledge and exact recipes. Ingredient sourcing requires ongoing quality control, and pasteurization at home is practically impossible without proper equipment. Aylopet frees you from these burdens and gives you assurance that your dog receives a scientifically balanced, safe, tailored diet."
+        },
+        {
+          "q": "Is Aylopet's ration suitable for all life stages (puppy, adult, senior)?",
+          "a": "Yes, we have special formulas for every life stage. With AylopetAI, each ration is calculated individually based on your dog's age, weight, and activity. That lets us offer nutrition that best supports puppy growth, adult energy, or senior health."
+        },
+        {
+          "q": "How much does an individualized feeding plan cost?",
+          "a": "Every dog is unique, so feeding cost is calculated individually from your companion's weight, age, and activity. For example, plans for the smallest breeds often start from about 1.5 GEL per day. Because we deliver directly to your door, your investment goes into premium ingredients—not extra retail markups."
+        },
+        {
+          "q": "Do I need a vet consultation before switching to Aylopet?",
+          "a": "For your peace of mind you may consult your veterinarian, but AylopetAI's algorithm already selects an optimal ration for your dog and prepares an individualized transition plan. That process is essential for safe adaptation, and our AI guides you through it step by step."
+        },
+        {
+          "q": "How do I transition my dog from dry food to Aylopet's fresh ration?",
+          "a": "AylopetAI generates an individualized transition plan for you. Based on your dog's data, it tells you exactly how and in what proportion to switch to the new ration so the process is as simple and safe as possible."
+        },
+        {
+          "q": "How is portion control handled, and do I need to weigh the food?",
+          "a": "Our team is working to make feeding as simple and accurate as possible for you. We are currently evaluating different solutions so you can control portions without extra effort."
+        }
+      ]
+    },
+    {
+      "id": "ourRecipes",
+      "title": "Our Recipes",
+      "questions": [
+        {
+          "q": "What types of recipes does Aylopet offer?",
+          "a": "We offer complete diets (beef, chicken, fish), blended formulas, and specialized options for sensitive dogs."
+        },
+        {
+          "q": "How are ingredients selected and quality controlled?",
+          "a": "Ingredients are sourced from human-grade suppliers; quality is monitored at every production stage."
+        },
+        {
+          "q": "Do your recipes contain grains?",
+          "a": "No, our formulas are grain-free; they are based on meat, vegetables, and fruit."
+        },
+        {
+          "q": "How does an Aylopet recipe differ from others?",
+          "a": "Our recipes are personalized for your pet; they are grain-free, verified, and balanced."
+        }
+      ]
+    },
+    {
+      "id": "subscriptionAccount",
+      "title": "Subscription & Account",
+      "questions": [
+        {
+          "q": "What is the Aylopet subscription model?",
+          "a": "You can subscribe to weekly or biweekly delivery; you can change, pause, or cancel anytime."
+        },
+        {
+          "q": "How do I activate a subscription?",
+          "a": "In your profile, select a product, add pet details, and complete the subscription."
+        },
+        {
+          "q": "How can I make changes to an active subscription?",
+          "a": "Go to Profile → Subscriptions → Select subscription and edit portion, frequency, or address."
+        },
+        {
+          "q": "Is it possible to manage several subscriptions together?",
+          "a": "Yes, you can manage multiple pets' subscriptions from one account."
+        },
+        {
+          "q": "How do I know when my next order arrives?",
+          "a": "You receive email notifications; order details and delivery date are in your profile."
+        },
+        {
+          "q": "How does billing work?",
+          "a": "Payment is charged per delivery cycle (weekly or biweekly); via bank card or other payment methods."
+        },
+        {
+          "q": "What should I do if I'm traveling?",
+          "a": "You can pause your subscription or change the delivery address from your profile."
+        },
+        {
+          "q": "Can I cancel or reactivate my subscription anytime?",
+          "a": "Yes, you can cancel or reactivate your subscription from your profile at any time."
+        },
+        {
+          "q": "I forgot my password, how to reset?",
+          "a": "Click 'Forgot password' on the login page; you will receive a reset link by email."
+        }
+      ]
+    },
+    {
+      "id": "creatingPlan",
+      "title": "Creating Your Plan",
+      "questions": [
+        {
+          "q": "How do I register my dog and start a plan?",
+          "a": "Create a profile, add your pet (age, weight, health), and get your first recommendation in minutes."
+        },
+        {
+          "q": "How do you determine my dog's nutritional needs?",
+          "a": "We use your pet's profile, Aylopet Pro data (if any), and AI algorithms aligned with NRC guidelines."
+        },
+        {
+          "q": "Can I change or cancel my plan anytime?",
+          "a": "Yes, plans and subscriptions are flexible; you can modify, pause, or cancel from your profile anytime."
+        }
+      ]
+    },
+    {
+      "id": "packagingShipping",
+      "title": "Packaging & Shipping",
+      "questions": [
+        {
+          "q": "How does national shipping work?",
+          "a": "We deliver nationwide across Georgia. Accuracy depends on address and contact details."
+        },
+        {
+          "q": "How do I ensure the food is undamaged?",
+          "a": "Food is shipped in chilled/frozen packaging. If the package is damaged, contact us immediately."
+        },
+        {
+          "q": "What if I'm not home?",
+          "a": "You can reschedule delivery in the app. Courier contact may be available for certain addresses."
+        },
+        {
+          "q": "How flexible is the schedule?",
+          "a": "You can choose weekly or biweekly delivery and change the date from subscription details."
+        },
+        {
+          "q": "How eco-friendly is the packaging?",
+          "a": "We use recyclable or biodegradable materials for packaging."
+        },
+        {
+          "q": "What to do if the package is damaged or delayed?",
+          "a": "Contact us at support@aylopet.ge immediately. Damaged or incomplete orders will be replaced or refunded."
+        }
+      ]
+    },
+    {
+      "id": "returns",
+      "title": "Returns",
+      "questions": [
+        {
+          "q": "Is it possible to return the food?",
+          "a": "We accept returns of opened food only under certain conditions; unopened, undamaged packages are returnable."
+        },
+        {
+          "q": "What are the return conditions for Aylopet Pro?",
+          "a": "Aylopet Pro comes with a warranty; details are on the product page and at purchase."
+        },
+        {
+          "q": "What to do if the package is damaged or incomplete?",
+          "a": "Send photos to support@aylopet.ge. We will replace or refund as appropriate."
+        },
+        {
+          "q": "In what timeframe are refunds processed?",
+          "a": "Refunds are processed within 7–14 business days to the original payment method."
+        },
+        {
+          "q": "Can I stop access to the AI chat?",
+          "a": "Yes, you can disable AI Chat in settings. Your dietary plan will remain available."
+        }
+      ]
+    }
+  ]
+}

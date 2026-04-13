@@ -1,0 +1,78 @@
+{
+  "nav": {
+    "home": "Home",
+    "projectStatus": "Project Status"
+  },
+  "projectStatusPage": {
+    "hero": {
+      "kicker": "Aylopet",
+      "title": "Aylopet: Development Dynamics",
+      "subtitle": "Watch a vision transform into reality. Join the team defining a new standard for pet longevity."
+    },
+    "statusCard": {
+      "badge": "Concept Visualization & Readiness",
+      "body": "A digital demonstration of the future ecosystem. The functionality presented—from AI nutritionist through preventive health calendars—is a prototype of our forthcoming standard. Each idea becomes a refined instrument the moment public interest and shared vision give the project's industrial realization its beginning."
+    },
+    "intent": {
+      "body": "For Aylopet, pre-sale is not merely a transaction—it is an expression of trust from you. By earning Honorary Ambassador or Early Bird status, you automatically join the Priority Waitlist. You signal your readiness to be among the first to join our family at official launch. Your engagement is the energy that drives the project forward."
+    },
+    "community": {
+      "title": "Shared goal: 500 founding members (Honorary Ambassadors & Early Birds)",
+      "description": "Our aim is to gather 500 enthusiasts who share our philosophy.",
+      "progressCaption": "Founding members",
+      "countLoading": "Syncing…",
+      "countFormat": "{current} / {goal}"
+    },
+    "roadmap": {
+      "heading": "Roadmap",
+      "stage1": {
+        "phase": "Stage I",
+        "title": "Concept Validation",
+        "badge": "Current",
+        "body": "Platform demo & Priority Waitlist growth."
+      },
+      "stage2": {
+        "phase": "Stage II",
+        "title": "Tech Implementation",
+        "badge": "",
+        "body": "Full AI integration and algorithm refinement once 500 members are reached."
+      },
+      "stage3": {
+        "phase": "Stage III",
+        "title": "Industrial Start",
+        "badge": "",
+        "body": "Setting up high-tech production lines aligned with international standards."
+      },
+      "stage4": {
+        "phase": "Stage IV",
+        "title": "Logistics & First Delivery",
+        "badge": "",
+        "body": "First batch production and exclusive delivery to Priority Waitlist members."
+      }
+    }
+  },
+  "productPages": {
+    "aylopetAi": {
+      "title": "AylopetAI",
+      "lead": "AylopetAI is your dog's personal digital nutritionist. It is a specialized artificial intelligence whose knowledge is focused exclusively on canine nutrition. Developed by international-level professional nutritionists, the system allows you to receive a scientifically-backed, individual feeding plan and advice in just 60 seconds. AylopetAI is available 24/7 to safeguard your friend's health.",
+      "card1Value": "60 Seconds",
+      "card1Label": "Personalized plan",
+      "card2Value": "24/7",
+      "card2Label": "Availability",
+      "kicker": "Developed by international-level professional nutritionists",
+      "cta": "Start Consultation"
+    },
+    "smartCollar": {
+      "title": "Aylopet Pro",
+      "lead": "Aylopet Pro is a smart collar designed for real-time dog monitoring, ensuring both safety and activity tracking. The device precisely measures location and distance traveled, allowing us to calculate actual energy expenditure. Based on the data from Aylopet Pro, our AI determines the exact caloric requirements, ensuring your four-legged friend receives exactly what they truly need."
+    },
+    "pasteurizedRaw": {
+      "title": "Pasteurized Raw Food",
+      "lead": "Pasteurized raw nutrition combines the benefits of natural ingredients with rigorous safety standards. The process reduces pathogen risk without sacrificing quality—crafted for dogs who deserve the best foundation for long-term health."
+    },
+    "whyHealthy": {
+      "title": "Why Healthy Food?",
+      "lead": "Quality nutrition is linked to longer, more vibrant lives: better digestion, stable weight, and resilient immunity. Aylopet's philosophy is straightforward—individual, science-led feeding tailored to each dog's unique needs."
+    }
+  }
+}

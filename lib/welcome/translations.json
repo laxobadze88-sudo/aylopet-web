@@ -1,0 +1,36 @@
+{
+  "GE": {
+    "headline": "თქვენი მეგობარი გეპატიჟებათ Aylopet-ის პიონერთა კლუბში.",
+    "subheadline": "აღმოაჩინეთ პერსონალიზებული ნუტრიციოლოგიის, საკვებისა და ტექნოლოგიების სინთეზი, რომელიც მორგებულია თქვენს ოთხფეხა მეგობარზე.",
+    "emotionalHook": "თქვენი მეგობარი უკვე ზრუნავს თავისი ოთხფეხა წევრის მომავალზე, შემოგვიერთდით და გახდით პირველი, ვინც გამოსცდის ინოვაციას.",
+    "about": "Aylopet არის ინოვაციური პლატფორმა, რომელიც AylopetAI-სა და საერთაშორისო ნუტრიციოლოგების დახმარებით, სულ რაღაც ერთ წუთიანი გასაუბრების შედეგად გთავაზობთ თქვენს ძაღლზე მორგებულ კვებას",
+    "mission": "Aylopet-ის მისია მარტივია: ვაჩუქოთ ჩვენს ოთხფეხა ოჯახის წევრებს მეტი ჯანსაღი და ბედნიერი წელი, AI ნუტრიციისა და ადამიანისთვის განკუთვნილი საკვები ინგრედიენტების სინთეზის საშუალებით.",
+    "mvpStatus": "ჩვენ ახლა ვართ MVP (მინიმალურ სიცოცხლისუნარიან პროდუქტს) ეტაპზე. თქვენ ხედავთ მომავლის ციფრულ პლატფორმას, რომელიც მალე სრულად ფუნქციონალური გახდება.",
+    "primaryCta": "ნახე საჩუქრები",
+    "freshFoodTitle": "ფრეშ ფუდი",
+    "freshFoodSubtitle": "პასტერიზებული ნატურალური კვება",
+    "exploreHome": "გაეცანი მთავარ საიტს",
+    "preSaleCommitment": "ამბასადორობის ან Early Bird წევრობის არჩევა ნიშნავს თქვენს ინტერესსა და ერთგულებას მომავალი წინასწარი გაყიდვების მიმართ.",
+    "btnAmbassador": "გახდი ამბასადორი",
+    "btnEarlyBird": "Early Bird წევრობა",
+    "giftsHeading": "საჩუქრები და წევრობა",
+    "metaHome": "მთავარი"
+  },
+  "EN": {
+    "headline": "Your friend invites you to the Aylopet Pioneer Circle.",
+    "subheadline": "Discover a synthesis of personalized nutrition, food, and technology tailored to your four-legged friend.",
+    "emotionalHook": "Your friend is already caring for their four-legged member's future. Join us and be the first to experience the innovation.",
+    "about": "Aylopet is an innovative platform that, powered by AylopetAI and international nutritionists, offers personalized nutrition tailored to your dog based on a quick, one-minute consultation.",
+    "mission": "Our mission is simple: to gift our four-legged family members more healthy and happy years through the synthesis of AI nutrition and human-grade ingredients.",
+    "mvpStatus": "We are currently in the MVP stage. You are seeing the digital platform of the future, which will soon become fully functional. Now is your chance to be among the first.",
+    "primaryCta": "See Gifts",
+    "freshFoodTitle": "Fresh Dog Food",
+    "freshFoodSubtitle": "Pasteurized natural nutrition for your companion",
+    "exploreHome": "Explore Main Site",
+    "preSaleCommitment": "Choosing Ambassador or Early Bird membership expresses your interest and commitment to upcoming pre-sales.",
+    "btnAmbassador": "Become an Ambassador",
+    "btnEarlyBird": "Early Bird Membership",
+    "giftsHeading": "Gifts & membership",
+    "metaHome": "Home"
+  }
+}

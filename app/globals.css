@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-playfair), Georgia, serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Infinite marquee for research cards - smooth right-to-left, ~3s per card prominence */
+@keyframes research-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.research-marquee-track {
+  animation: research-marquee 15s linear infinite;
+}
+
+.research-marquee-wrapper:hover .research-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Team page - subtle slow fade-in */
+@keyframes team-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.team-fade-in {
+  animation: team-fade-in 1.2s ease-out forwards;
+}
+
+/* Georgian (GE) text styling - Arial, uppercase - MUST use !important to override */
+html[data-lang="GE"] body,
+html[data-lang="GE"] body * {
+  font-family: Arial, sans-serif !important;
+  text-transform: uppercase !important;
+}
