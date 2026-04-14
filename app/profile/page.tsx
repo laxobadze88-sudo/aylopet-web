@@ -1262,7 +1262,7 @@ export default function ProfilePage() {
                                   if (!item?.timestamp) return '';
                                   return new Date(item.timestamp).toLocaleString(lang === 'GE' ? 'ka-GE' : 'en-US');
                                 }}
-                                formatter={(value: number) => [`${value} kg`, lang === 'GE' ? 'წონა' : 'Weight']}
+                                formatter={(value: number | undefined) => [`${value ?? '-'} kg`, lang === 'GE' ? 'წონა' : 'Weight']}
                               />
                               <Line
                                 type="monotone"
