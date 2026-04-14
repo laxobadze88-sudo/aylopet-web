@@ -8,33 +8,45 @@ const LANG_KEY = 'aylopet-lang';
 
 const footerTranslations: Record<Lang, Record<string, string>> = {
   GE: {
-    support: 'მხარდაჭერა / Support',
-    supportEmailComing: 'მხარდაჭერის მეილი მალე დაემატება / Support email coming soon',
-    forQuestions: 'კითხვებისთვის / For questions:',
-    partnershipB2B: 'პარტნიორობა B2B / Partnership B2B',
-    ayloperAI: 'AyloperAI',
-    smartCollar: 'ჭკვიანი ყელსაბამი / Smart Collar',
-    aboutUs: 'ჩვენს შესახებ / About Us',
-    faq: 'FAQ / ხშირად დასმული კითხვები',
-    myProfile: 'ჩემი პროფილი / My Profile',
-    freshFood: 'ნედლი საკვები / Fresh Food',
-    blog: 'ბლოგი / Blog',
+    siteMap: 'საიტის რუკა',
+    products: 'პროდუქტები',
+    support: 'მხარდაჭერა',
+    whatIs: 'რა არის Aylopet',
+    story: 'ჩვენი ისტორია',
+    process: 'წარმოების პროცესი',
+    team: 'გუნდი',
+    vision: 'კომპანიის ხედვა',
+    aylopetAI: 'AylopetAI',
+    aylopetPro: 'Aylopet Pro',
+    pasteurized: 'პასტერიზებული ნატურალური და ფრეში საკვები',
+    whyHealthy: 'რატომ ჯანსაღი საკვები?',
+    faq: 'FAQ',
+    myProfile: 'ჩემი პროფილი',
+    supportEmailComing: 'მხარდაჭერის ელ.ფოსტა მალე დაემატება',
+    forQuestions: 'კითხვებისთვის:',
+    deliveryZones: 'მიტანის ზონები',
     privacy: 'Privacy',
     terms: 'Terms',
     accessibility: 'Accessibility',
   },
   EN: {
-    support: 'მხარდაჭერა / Support',
-    supportEmailComing: 'მხარდაჭერის მეილი მალე დაემატება / Support email coming soon',
-    forQuestions: 'კითხვებისთვის / For questions:',
-    partnershipB2B: 'პარტნიორობა B2B / Partnership B2B',
-    ayloperAI: 'AyloperAI',
-    smartCollar: 'ჭკვიანი ყელსაბამი / Smart Collar',
-    aboutUs: 'ჩვენს შესახებ / About Us',
-    faq: 'FAQ / ხშირად დასმული კითხვები',
-    myProfile: 'ჩემი პროფილი / My Profile',
-    freshFood: 'ნედლი საკვები / Fresh Food',
-    blog: 'ბლოგი / Blog',
+    siteMap: 'SITE MAP',
+    products: 'PRODUCTS',
+    support: 'SUPPORT',
+    whatIs: 'What is Aylopet',
+    story: 'Our Story',
+    process: 'Production Process',
+    team: 'Team',
+    vision: 'Company Vision',
+    aylopetAI: 'AylopetAI',
+    aylopetPro: 'Aylopet Pro',
+    pasteurized: 'Pasteurized Natural and Fresh Food',
+    whyHealthy: 'Why Healthy Food?',
+    faq: 'FAQ',
+    myProfile: 'My Profile',
+    supportEmailComing: 'Support email coming soon',
+    forQuestions: 'For questions:',
+    deliveryZones: 'Delivery Zones',
     privacy: 'Privacy',
     terms: 'Terms',
     accessibility: 'Accessibility',
@@ -42,76 +54,96 @@ const footerTranslations: Record<Lang, Record<string, string>> = {
 };
 
 export function Footer() {
-  const [lang, setLang] = useState<Lang>('GE');
-  useEffect(() => {
-    const stored = localStorage.getItem(LANG_KEY);
-    setLang(stored === 'EN' ? 'EN' : 'GE');
-  }, []);
+  const [lang, setLang] = useState<Lang>(() =>
+    typeof window !== 'undefined' && localStorage.getItem(LANG_KEY) === 'EN' ? 'EN' : 'GE'
+  );
+
   useEffect(() => {
     const handler = () => {
       const stored = localStorage.getItem(LANG_KEY);
       setLang(stored === 'EN' ? 'EN' : 'GE');
     };
     window.addEventListener('aylopet-lang-change', handler);
-    return () => window.removeEventListener('aylopet-lang-change', handler);
+    window.addEventListener('storage', handler);
+    return () => {
+      window.removeEventListener('aylopet-lang-change', handler);
+      window.removeEventListener('storage', handler);
+    };
   }, []);
   const t = footerTranslations[lang];
+
   return (
-    <footer className="bg-[#1A2F1A] text-white/90">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+    <footer className="bg-[#294d1f] text-white/90">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:py-14">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-14">
           <div>
-            <h3 className="font-serif text-sm font-semibold uppercase tracking-wider text-white/95 mb-4">Links</h3>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/80">{t.siteMap}</h3>
             <nav className="flex flex-col gap-2">
-              <Link href="/ayloperai-chat" className="text-sm text-white/80 hover:text-white hover:underline underline-offset-2 transition whitespace-nowrap">
-                {t.ayloperAI}
+              <Link href="/about" className="text-sm text-white/80 transition hover:text-white">
+                {t.whatIs}
               </Link>
-              <Link href="/smart-collar" className="text-sm text-white/80 hover:text-white hover:underline underline-offset-2 transition whitespace-nowrap">
-                {t.smartCollar}
+              <Link href="/about" className="text-sm text-white/80 transition hover:text-white">
+                {t.story}
               </Link>
-              <Link href="/about" className="text-sm text-white/80 hover:text-white hover:underline underline-offset-2 transition whitespace-nowrap">
-                {t.aboutUs}
+              <Link href="/about" className="text-sm text-white/80 transition hover:text-white">
+                {t.process}
               </Link>
-              <Link href="/faq" className="text-sm text-white/80 hover:text-white hover:underline underline-offset-2 transition whitespace-nowrap">
-                {t.faq}
+              <Link href="/team" className="text-sm text-white/80 transition hover:text-white">
+                {t.team}
               </Link>
-              <Link href="/profile" className="text-sm text-white/80 hover:text-white hover:underline underline-offset-2 transition whitespace-nowrap">
-                {t.myProfile}
-              </Link>
-              <Link href="/products" className="text-sm text-white/80 hover:text-white hover:underline underline-offset-2 transition whitespace-nowrap">
-                {t.freshFood}
-              </Link>
-              <Link href="/blog" className="text-sm text-white/80 hover:text-white hover:underline underline-offset-2 transition whitespace-nowrap">
-                {t.blog}
+              <Link href="/about" className="text-sm text-white/80 transition hover:text-white">
+                {t.vision}
               </Link>
             </nav>
           </div>
+
           <div>
-            <h3 className="font-serif text-sm font-semibold uppercase tracking-wider text-white/95 mb-4">{t.support}</h3>
-            <p className="text-sm text-white/70 mb-3 whitespace-nowrap">{t.supportEmailComing}</p>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/80">{t.products}</h3>
+            <nav className="flex flex-col gap-2">
+              <Link href="/aylopetai-chat" className="text-sm text-white/80 transition hover:text-white">
+                {t.aylopetAI}
+              </Link>
+              <Link href="/smart-collar" className="text-sm text-white/80 transition hover:text-white">
+                {t.aylopetPro}
+              </Link>
+              <Link href="/products/pasteurized-raw" className="text-sm text-white/80 transition hover:text-white">
+                {t.pasteurized}
+              </Link>
+              <Link href="/products/why-healthy" className="text-sm text-white/80 transition hover:text-white">
+                {t.whyHealthy}
+              </Link>
+              <Link href="/faq" className="text-sm text-white/80 transition hover:text-white">
+                {t.faq}
+              </Link>
+              <Link href="/profile" className="text-sm text-white/80 transition hover:text-white">
+                {t.myProfile}
+              </Link>
+            </nav>
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/80">{t.support}</h3>
+            <p className="mb-3 text-sm text-white/70">{t.supportEmailComing}</p>
             <p className="text-sm text-white/70">
-              <span className="whitespace-nowrap">{t.forQuestions}</span>{' '}
-              <a href="tel:+995595885625" className="text-white/90 hover:text-white hover:underline underline-offset-2 transition">
+              {t.forQuestions}{' '}
+              <a href="tel:+995595885625" className="text-white/90 transition hover:text-white">
                 +995 595 88 56 25
               </a>
             </p>
-            <p className="text-sm text-white/70 mt-3">
-              <Link href="/ayloperai-chat" className="text-white/80 hover:text-white hover:underline underline-offset-2 transition whitespace-nowrap">
-                {t.partnershipB2B}
-              </Link>
-            </p>
+            <p className="mt-3 text-sm text-white/70">{t.deliveryZones}</p>
           </div>
         </div>
       </div>
+
       <div className="border-t border-white/10">
-        <div className="mx-auto max-w-6xl px-4 py-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/60">
-          <Link href="/privacy" className="hover:text-white hover:underline underline-offset-2 transition">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 py-4 text-xs text-white/60">
+          <Link href="/privacy" className="transition hover:text-white">
             {t.privacy}
           </Link>
-          <Link href="/terms" className="hover:text-white hover:underline underline-offset-2 transition">
+          <Link href="/terms" className="transition hover:text-white">
             {t.terms}
           </Link>
-          <Link href="/accessibility" className="hover:text-white hover:underline underline-offset-2 transition">
+          <Link href="/accessibility" className="transition hover:text-white">
             {t.accessibility}
           </Link>
         </div>

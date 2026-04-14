@@ -28,7 +28,7 @@ const copy: Record<
     copy: 'კოპირება',
     copied: 'კოპირებულია',
     role: 'სტატუსი',
-    roleAmbassador: 'Honorary Ambassador (Elite 100)',
+    roleAmbassador: 'Honorary Ambassador',
     roleOrganic: 'Organic Early Bird',
     roleReferral: 'Referral Early Bird',
     roleElite: 'Elite Early Bird',
@@ -64,7 +64,7 @@ const copy: Record<
     copy: 'Copy',
     copied: 'Copied',
     role: 'Role',
-    roleAmbassador: 'Honorary Ambassador (Elite 100)',
+    roleAmbassador: 'Honorary Ambassador',
     roleOrganic: 'Organic Early Bird',
     roleReferral: 'Referral Early Bird',
     roleElite: 'Elite Early Bird',
@@ -213,7 +213,7 @@ export function ReferralDashboard({ lang, userId, hasActiveProfile, promoUserTie
         </div>
       )}
 
-      <div className="rounded-2xl border border-[#D4E4D4] bg-white/90 p-6 shadow-sm">
+      <div className="rounded-3xl border border-[#dce7d6] bg-gradient-to-br from-white via-[#f8fbf5] to-[#f1f6eb] p-6 shadow-[0_12px_28px_rgba(45,90,39,0.08)]">
         <h2 className="font-serif text-xl font-bold text-[#2D3A2D]">{c.title}</h2>
         <p className="mt-1 text-sm text-[#5a6b5a]">{c.subtitle}</p>
         <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
@@ -224,7 +224,7 @@ export function ReferralDashboard({ lang, userId, hasActiveProfile, promoUserTie
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[#D4E4D4] bg-gradient-to-br from-white to-[#f6f8f3] p-6 shadow-sm">
+      <div className="rounded-3xl border border-[#dce7d6] bg-gradient-to-br from-white to-[#f6f9f2] p-6 shadow-[0_12px_28px_rgba(45,90,39,0.08)]">
         <h3 className="flex items-center gap-2 font-semibold text-[#2D3A2D]">
           <Users className="h-5 w-5 text-[#2d5a27]" />
           {c.yourLink}
@@ -251,7 +251,7 @@ export function ReferralDashboard({ lang, userId, hasActiveProfile, promoUserTie
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-[#D4E4D4] bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-[#dce7d6] bg-white p-6 shadow-[0_10px_24px_rgba(45,90,39,0.07)]">
           <h3 className="flex items-center gap-2 font-semibold text-[#2D3A2D]">
             <TrendingUp className="h-5 w-5 text-[#2d5a27]" />
             {c.financialTitle}
@@ -293,7 +293,7 @@ export function ReferralDashboard({ lang, userId, hasActiveProfile, promoUserTie
           {effectiveRole === 'referral_eb' && <p className="mt-3 text-xs text-[#5a6b5a]">{c.extensionNote}</p>}
         </div>
 
-        <div className="rounded-2xl border border-[#D4E4D4] bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-[#dce7d6] bg-white p-6 shadow-[0_10px_24px_rgba(45,90,39,0.07)]">
           <h3 className="flex items-center gap-2 font-semibold text-[#2D3A2D]">
             <Gift className="h-5 w-5 text-[#2d5a27]" />
             {c.milestoneTitle}
@@ -336,7 +336,7 @@ export function ReferralDashboard({ lang, userId, hasActiveProfile, promoUserTie
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[#D4E4D4] bg-[#f6f8f3]/80 p-6">
+      <div className="rounded-3xl border border-[#dce7d6] bg-gradient-to-b from-[#f8fbf5] to-[#f2f7ed] p-6 shadow-[0_10px_24px_rgba(45,90,39,0.06)]">
         <h3 className="font-semibold text-[#2D3A2D]">{c.invitedTitle}</h3>
         {data.referrals.length === 0 ? (
           <p className="mt-3 text-sm text-[#5a6b5a]">{c.noInvites}</p>
@@ -370,7 +370,7 @@ export function ReferralDashboard({ lang, userId, hasActiveProfile, promoUserTie
       </div>
 
       {nextInfo && (
-        <div className="rounded-2xl border border-dashed border-[#2d5a27]/40 bg-white/60 p-5">
+        <div className="rounded-3xl border border-dashed border-[#2d5a27]/35 bg-white/80 p-5">
           <h3 className="font-semibold text-[#2D3A2D]">{c.whatsNext}</h3>
           <p className="mt-2 text-sm text-[#5a6b5a]">
             {lang === 'GE'

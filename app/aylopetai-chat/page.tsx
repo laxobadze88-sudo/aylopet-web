@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Pencil } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { withRetry } from '@/lib/supabase-retry';
+import { appendWeightHistoryPoint } from '@/lib/weight-monitoring';
 import { breeds as breedsFallback } from '@/app/data/breeds';
 import { diseases as diseasesFallback } from '@/app/data/diseases';
 import { CITY_OPTIONS, getCityDisplayName, normalizeCityKey, isDeliveryCity } from '@/app/data/cities';
@@ -539,7 +540,7 @@ export default function AylopetAIChatPage() {
                   const breedName = d.breed ? (d.breed.id === 'custom' ? d.breed.nameKa : (lang === 'GE' ? d.breed.nameKa : d.breed.nameEn)) : null;
                   const healthText = (d.healthIds?.length ?? 0) === 0 ? null : d.healthIds.join(', ');
                   const goalVal = d.goal === 'custom' ? d.goalCustom : d.goal;
-                  const { error } = await supabase.from('dogs').insert({
+                  const { data: insertedDog, error } = await supabase.from('dogs').insert({
                     owner_id: authUser.id,
                     name: d.name || 'Unknown',
                     breed: breedName,
@@ -548,7 +549,7 @@ export default function AylopetAIChatPage() {
                     gender: d.gender || null,
                     neutered: d.neutered || null,
                     current_weight: d.weight > 0 ? d.weight : null,
-                    target_weight: d.weight > 0 ? d.weight : null,
+                    target_weight: null,
                     body_condition: d.condition || null,
                     activity_level: d.activity || null,
                     appetite: d.appetite || null,
@@ -557,8 +558,11 @@ export default function AylopetAIChatPage() {
                     diet_brand: d.dietBrand || null,
                     goal: goalVal || null,
                     phone_number: finalAnswers.phone || null,
-                  });
+                  }).select('id').single();
                   if (error) console.warn('Dogs insert:', error.message);
+                  if (!error && insertedDog?.id && d.weight > 0) {
+                    await appendWeightHistoryPoint(insertedDog.id, d.weight);
+                  }
                 }
               }
             } catch (e) {

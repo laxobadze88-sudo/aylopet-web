@@ -88,7 +88,7 @@ export default function ProjectStatusPage() {
 
         {/* Status card */}
         <FadeInSection className="relative mx-auto max-w-3xl px-6 sm:px-10">
-          <div className="rounded-[2rem] border border-slate-200/60 bg-white/80 p-9 shadow-[0_2px_40px_-12px_rgba(45,79,30,0.14)] backdrop-blur-md sm:p-11 md:p-14">
+          <div className="rounded-[2rem] border border-[#dfe9da] bg-gradient-to-br from-white via-[#fdfefb] to-[#f6f8f3] p-9 shadow-[0_20px_60px_-45px_rgba(45,79,30,0.4)] sm:p-11 md:p-14">
             <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-[#2D4F1E]/12 bg-[#f6f8f3]/90 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#2D4F1E]">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#c2410c]/50" />
@@ -96,21 +96,26 @@ export default function ProjectStatusPage() {
               </span>
               {t.statusCard.badge}
             </div>
-            <p className="text-[1.0625rem] font-light leading-[1.8] text-slate-600 md:text-lg">{t.statusCard.body}</p>
+            <p className="text-[1.0625rem] font-light leading-[1.85] text-slate-700 md:text-lg">
+              {t.statusCard.title}. {t.statusCard.body}
+            </p>
           </div>
         </FadeInSection>
 
         {/* Intent */}
         <FadeInSection className="relative mx-auto max-w-3xl px-6 py-24 sm:px-10 sm:py-32">
-          <div className="relative rounded-[2rem] border border-[#ea580c]/10 bg-gradient-to-br from-white via-[#fffbf7] to-[#f6f8f3]/80 p-9 sm:p-11 md:p-14">
-            <div className="absolute left-0 top-10 hidden h-[calc(100%-5rem)] w-px bg-gradient-to-b from-[#2D4F1E]/25 via-[#ea580c]/20 to-transparent sm:block sm:left-8" aria-hidden />
-            <p className="pl-0 text-[1.0625rem] font-light leading-[1.85] text-slate-700 sm:pl-10 md:text-lg">{t.intent.body}</p>
+          <div className="rounded-[2rem] border border-[#dfe9da] bg-gradient-to-br from-white via-[#fdfefb] to-[#f6f8f3] p-9 shadow-[0_20px_60px_-45px_rgba(45,79,30,0.4)] sm:p-11 md:p-14">
+            <h2 className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-[#2D4F1E]/12 bg-[#f6f8f3]/90 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#2D4F1E]">
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#ea580c]" />
+              {t.intent.title}
+            </h2>
+            <p className="text-[1.0625rem] font-light leading-[1.85] text-slate-700 md:text-lg">{t.intent.body}</p>
           </div>
         </FadeInSection>
 
         {/* Founding 500 */}
         <FadeInSection className="relative mx-auto max-w-3xl px-6 pb-24 sm:px-10 sm:pb-32">
-          <div className="rounded-[2rem] border border-slate-200/50 bg-white/90 p-9 shadow-sm sm:p-11 md:p-14">
+          <div className="rounded-[2rem] border border-[#dfe9da] bg-gradient-to-br from-white via-[#fdfefb] to-[#f6f8f3] p-9 shadow-[0_20px_60px_-45px_rgba(45,79,30,0.4)] sm:p-11 md:p-14">
             <h2 className="font-serif text-[1.375rem] font-semibold tracking-tight text-slate-900 sm:text-2xl">{t.community.title}</h2>
             <p className="mt-5 max-w-2xl text-[0.9375rem] font-light leading-relaxed text-slate-600 sm:text-base">{t.community.description}</p>
 

@@ -7,9 +7,19 @@ import dictEn from '@/lib/i18n/en.json';
 import dictGe from '@/lib/i18n/ge.json';
 import { supabase } from '@/lib/supabase';
 import { withRetry } from '@/lib/supabase-retry';
-import { FileText, ExternalLink, Star, MessageCircle, Loader2 } from 'lucide-react';
+import {
+  FileText,
+  ExternalLink,
+  Star,
+  MessageCircle,
+  Loader2,
+  HeartPulse,
+  ShieldCheck,
+  BadgeCheck,
+  Sparkles,
+  Truck,
+} from 'lucide-react';
 import { Footer } from './components/Footer';
-import { FaqAccordionSection } from './components/FaqAccordionSection';
 
 type Lang = 'GE' | 'EN';
 const LANG_KEY = 'aylopet-lang';
@@ -113,7 +123,7 @@ const translations: Record<
 > = {
   GE: {
     bannerText:
-      'თქვენ მიიღეთ საჩუქრად 50%-იანი ფასდაკლება საკვებზე და უფასო კონსულტაცია!',
+      'თქვენ მიიღეთ საჩუქრად 40%-იანი ფასდაკლება საკვებზე და უფასო კონსულტაცია!',
     bannerCta: 'გამოიყენეთ ახლავე',
     nav: {
       about: 'ჩვენს შესახებ',
@@ -151,7 +161,7 @@ const translations: Record<
       lifespan: 'ძაღლების სიცოცხლის ხანგრძლივობა',
       lifespanText: '2003 წლის კვლევამ (Lippert & Sapy) 537 ძაღლზე აჩვენა, რომ ნატურალური კვება მნიშვნელოვნად ზრდის სიცოცხლის ხანგრძლივობას.',
       immune: 'იმუნიტეტი და ენერგია',
-      immuneText: 'The Farmer\'s Dog (PubMed) რომ ჯანსაღი საკვები აუმჯობესებს მონელებას და იმუნურ პასუხს.',
+      immuneText: 'კვლევა აჩვენებს, რომ fresh კვებაზე მყოფ ძაღლებს kibble-თან შედარებით უკეთესი ჰიდრატაცია აქვთ.',
       ratings: 'საერთო შეფასება',
       ratingsText: 'გაიგეთ რას ფიქრობენ ჩვენი მომხმარებლები.',
       firstInGeo: 'პირველები საქართველოში',
@@ -188,7 +198,7 @@ const translations: Record<
   },
   EN: {
     bannerText:
-      'You’ve unlocked a 50% discount on food and a free consultation!',
+      'You’ve unlocked a 40% discount on food and a free consultation!',
     bannerCta: 'Redeem now',
     nav: {
       about: 'About Us',
@@ -226,7 +236,7 @@ const translations: Record<
       lifespan: 'Dog Lifespan Extension',
       lifespanText: 'A 2003 study (Lippert & Sapy) on 537 dogs showed that natural feeding significantly increases lifespan.',
       immune: 'Immunity & Energy',
-      immuneText: 'The Farmer\'s Dog (PubMed) shows that healthy food improves digestion and immune response.',
+      immuneText: 'Research shows dogs on fresh food have better hydration than dogs fed kibble.',
       ratings: 'Overall Rating',
       ratingsText: 'See what our customers think.',
       firstInGeo: 'First in Georgia',
@@ -296,6 +306,48 @@ export default function Home() {
   const t = translations[lang];
   const pathname = usePathname();
   const projectStatusLabel = navI18n[lang].projectStatus;
+  const researchCards = [
+    {
+      key: 'lifespan',
+      icon: HeartPulse,
+      title: t.research.lifespan,
+      text: t.research.lifespanText,
+      link: {
+        href: 'https://www.cavalierhealth.org/images/Lippert_Sapy_Domestic_Dogs_Life_Expectancy.pdf',
+        label: 'PDF',
+        icon: FileText,
+      },
+    },
+    {
+      key: 'immune',
+      icon: ShieldCheck,
+      title: t.research.immune,
+      text: t.research.immuneText,
+      link: {
+        href: 'https://www.petfoodindustry.com/nutrition/research-notes/news/15771498/study-farmers-dog-finds-fresh-dog-food-boosts-hydration-more-than-kibble',
+        label: 'Study',
+        icon: ExternalLink,
+      },
+    },
+    {
+      key: 'ratings',
+      icon: BadgeCheck,
+      title: t.research.ratings,
+      text: t.research.ratingsText,
+    },
+    {
+      key: 'firstInGeo',
+      icon: Sparkles,
+      title: t.research.firstInGeo,
+      text: t.research.firstInGeoText,
+    },
+    {
+      key: 'delivery',
+      icon: Truck,
+      title: t.research.delivery,
+      text: t.research.deliveryText,
+    },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -572,11 +624,46 @@ export default function Home() {
                 </button>
                 <div className="invisible absolute left-1/2 top-full z-50 mt-0 w-60 -translate-x-1/2 rounded-b-xl border border-slate-100 bg-white text-xs text-slate-700 opacity-0 shadow-xl shadow-slate-200 transition group-hover:visible group-hover:opacity-100">
                   <ul className="space-y-1.5 rounded-b-xl bg-white p-3 pt-2">
-                    <li className="rounded-xl px-3 py-1.5 hover:bg-[#eef2e7]">{t.nav.aboutItems.whatIs}</li>
-                    <li className="rounded-xl px-3 py-1.5 hover:bg-[#eef2e7]">{t.nav.aboutItems.story}</li>
-                    <li className="rounded-xl px-3 py-1.5 hover:bg-[#eef2e7]">{t.nav.aboutItems.process}</li>
-                    <li className="rounded-xl px-3 py-1.5 hover:bg-[#eef2e7]">{t.nav.aboutItems.team}</li>
-                    <li className="rounded-xl px-3 py-1.5 hover:bg-[#eef2e7]">{t.nav.aboutItems.vision}</li>
+                    <li>
+                      <Link
+                        href="/about#what-is"
+                        className="block rounded-xl px-3 py-1.5 text-slate-700 no-underline transition hover:bg-[#eef2e7] hover:text-[#2D4F1E]"
+                      >
+                        {t.nav.aboutItems.whatIs}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/about#vision"
+                        className="block rounded-xl px-3 py-1.5 text-slate-700 no-underline transition hover:bg-[#eef2e7] hover:text-[#2D4F1E]"
+                      >
+                        {t.nav.aboutItems.vision}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/about#our-story"
+                        className="block rounded-xl px-3 py-1.5 text-slate-700 no-underline transition hover:bg-[#eef2e7] hover:text-[#2D4F1E]"
+                      >
+                        {t.nav.aboutItems.story}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/about#production"
+                        className="block rounded-xl px-3 py-1.5 text-slate-700 no-underline transition hover:bg-[#eef2e7] hover:text-[#2D4F1E]"
+                      >
+                        {t.nav.aboutItems.process}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/team"
+                        className="block rounded-xl px-3 py-1.5 text-slate-700 no-underline transition hover:bg-[#eef2e7] hover:text-[#2D4F1E]"
+                      >
+                        {t.nav.aboutItems.team}
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -629,7 +716,7 @@ export default function Home() {
               >
                 {t.nav.review}
               </button>
-              <Link href="/#faq" className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold text-slate-900 transition hover:text-[#2D4F1E]">
+              <Link href="/faq" className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold text-slate-900 transition hover:text-[#2D4F1E]">
                 {t.nav.faq}
               </Link>
               <Link
@@ -728,7 +815,7 @@ export default function Home() {
           <img
             src="/hero-dog.jpg.png"
             alt="Healthy dog - Aylopet premium nutrition"
-            className="h-full w-full object-cover object-center"
+            className="h-full w-full object-cover object-[center_74%] sm:object-[center_72%] lg:object-[center_68%]"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-[#1f2f1c]/70 to-black/50" />
         </div>
@@ -763,6 +850,8 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="h-8 w-full bg-white" aria-hidden="true" />
+
       {/* Floating Chat */}
       <a
         href="/aylopetai-chat"
@@ -773,39 +862,56 @@ export default function Home() {
       </a>
 
       {/* Research & Trust Section - below Hero */}
-      <section id="research-section" className="w-full border-b border-slate-100 bg-white text-slate-900 py-12 my-10">
-        <div className="mx-auto max-w-6xl w-full px-4">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="rounded-xl border border-slate-100 bg-[#f6f8f3] p-4">
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">{t.research.lifespan}</h3>
-              <p className="text-xs text-slate-600 mb-3">{t.research.lifespanText}</p>
-              <a href="https://www.researchgate.net/publication/228346089" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-[#2D4F1E] hover:text-[#253f18]">
-                <FileText className="w-3.5 h-3.5" /> PDF
-              </a>
-            </div>
-            <div className="rounded-xl border border-slate-100 bg-[#f6f8f3] p-4">
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">{t.research.immune}</h3>
-              <p className="text-xs text-slate-600 mb-3">{t.research.immuneText}</p>
-              <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-[#2D4F1E] hover:text-[#253f18]">
-                <ExternalLink className="w-3.5 h-3.5" /> PubMed
-              </a>
-            </div>
-            <div className="rounded-xl border border-slate-100 bg-[#f6f8f3] p-4">
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">{t.research.ratings}</h3>
-              <div className="flex gap-0.5 mb-2">
-                {[1,2,3,4,5].map((i) => (
-                  <Star key={i} className={`w-4 h-4 ${(reviewSummary?.avg_rating ?? 5) >= i ? 'fill-[#2D4F1E] text-[#2D4F1E]' : 'text-slate-200'}`} />
-                ))}
-              </div>
-              <p className="text-xs text-slate-600">{t.research.ratingsText}</p>
-            </div>
-            <div className="rounded-xl border border-slate-100 bg-[#f6f8f3] p-4">
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">{t.research.firstInGeo}</h3>
-              <p className="text-xs text-slate-600">{t.research.firstInGeoText}</p>
-            </div>
-            <div className="rounded-xl border border-slate-100 bg-[#f6f8f3] p-4">
-              <h3 className="text-sm font-semibold text-slate-900 mb-2">{t.research.delivery}</h3>
-              <p className="text-xs text-slate-600">{t.research.deliveryText}</p>
+      <section id="research-section" className="w-full border-b border-slate-100 bg-white py-12 text-slate-900">
+        <div className="mx-auto w-full max-w-6xl px-4">
+          <div className="mb-6 text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#2D4F1E]/80">Aylopet Insights</p>
+            <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">{t.research.firstInGeo}</h2>
+          </div>
+
+          <div className="research-marquee-wrapper overflow-hidden rounded-3xl border border-[#dde6cf] bg-gradient-to-b from-[#f9fbf5] to-[#eef4e3] px-3 py-4 sm:px-4 sm:py-5 [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
+            <div className="research-marquee-track flex w-max gap-4 sm:gap-5">
+              {[...researchCards, ...researchCards].map((card, index) => {
+                const Icon = card.icon;
+                const LinkIcon = card.link?.icon;
+                return (
+                  <article
+                    key={`${card.key}-${index}`}
+                    className="w-[250px] shrink-0 rounded-[1.25rem] border border-white/70 bg-white/90 p-5 shadow-[0_10px_30px_rgba(31,53,21,0.10)] backdrop-blur-sm sm:w-[290px] lg:w-[320px]"
+                  >
+                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#2D4F1E]/10 text-[#2D4F1E]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mb-2 text-sm font-semibold text-slate-900">{card.title}</h3>
+                    <p className="mb-4 line-clamp-4 text-xs leading-5 text-slate-600">{card.text}</p>
+
+                    {card.key === 'ratings' && (
+                      <div className="mb-4 flex gap-0.5">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${
+                              (reviewSummary?.avg_rating ?? 5) >= i ? 'fill-[#2D4F1E] text-[#2D4F1E]' : 'text-slate-200'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {card.link && LinkIcon && (
+                      <a
+                        href={card.link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D4F1E] transition hover:text-[#253f18]"
+                      >
+                        <LinkIcon className="h-3.5 w-3.5" />
+                        {card.link.label}
+                      </a>
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -971,8 +1077,6 @@ export default function Home() {
           {reviewToast}
         </div>
       )}
-
-      <FaqAccordionSection lang={lang} heading={t.nav.faq} anchorId />
 
       <Footer />
     </div>

@@ -37,11 +37,24 @@ body {
 }
 
 .research-marquee-track {
-  animation: research-marquee 15s linear infinite;
+  animation: research-marquee 42s linear infinite;
+  will-change: transform;
 }
 
 .research-marquee-wrapper:hover .research-marquee-track {
   animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+  .research-marquee-track {
+    animation-duration: 50s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .research-marquee-track {
+    animation: none;
+  }
 }
 
 /* Team page - subtle slow fade-in */

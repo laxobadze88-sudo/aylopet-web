@@ -16,9 +16,31 @@ CREATE POLICY "Users can insert medical records for own dogs" ON medical_records
     EXISTS (SELECT 1 FROM dogs WHERE dogs.id = medical_records.dog_id AND dogs.owner_id = auth.uid())
   );
 
+DROP POLICY IF EXISTS "Users can view medical records for own dogs" ON medical_records;
+CREATE POLICY "Users can view medical records for own dogs" ON medical_records
+  FOR SELECT USING (
+    EXISTS (SELECT 1 FROM dogs WHERE dogs.id = medical_records.dog_id AND dogs.owner_id = auth.uid())
+  );
+
+DROP POLICY IF EXISTS "Users can update medical records for own dogs" ON medical_records;
+CREATE POLICY "Users can update medical records for own dogs" ON medical_records
+  FOR UPDATE USING (
+    EXISTS (SELECT 1 FROM dogs WHERE dogs.id = medical_records.dog_id AND dogs.owner_id = auth.uid())
+  )
+  WITH CHECK (
+    EXISTS (SELECT 1 FROM dogs WHERE dogs.id = medical_records.dog_id AND dogs.owner_id = auth.uid())
+  );
+
+DROP POLICY IF EXISTS "Users can delete medical records for own dogs" ON medical_records;
+CREATE POLICY "Users can delete medical records for own dogs" ON medical_records
+  FOR DELETE USING (
+    EXISTS (SELECT 1 FROM dogs WHERE dogs.id = medical_records.dog_id AND dogs.owner_id = auth.uid())
+  );
+
 -- 2. Grant usage (authenticated users = logged-in via Supabase Auth)
 GRANT ALL ON weight_history TO authenticated;
 GRANT ALL ON medical_records TO authenticated;
 
 -- 3. Verify: Run this to check your dogs (replace YOUR_USER_ID with auth.uid() from browser console)
 -- SELECT id, name, owner_id FROM dogs WHERE owner_id = auth.uid();
+-- SELECT * FROM medical_records WHERE dog_id IN (SELECT id FROM dogs WHERE owner_id = auth.uid());
