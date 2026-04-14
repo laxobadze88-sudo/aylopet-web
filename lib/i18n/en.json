@@ -3,6 +3,24 @@
     "home": "Home",
     "projectStatus": "Project Status"
   },
+  "auth": {
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "cancel": "Cancel",
+    "forgotPassword": "Forgot password?",
+    "enterEmailForRecovery": "Enter your email first to recover password.",
+    "resetLinkSent": "Password recovery link has been sent to your email.",
+    "resetPageTitle": "Reset Password",
+    "resetPageSubtitle": "Enter a new password and confirm it.",
+    "newPasswordPlaceholder": "New password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "passwordMinLength": "Password must be at least 6 characters.",
+    "passwordsMismatch": "Passwords do not match.",
+    "passwordUpdated": "Password updated successfully.",
+    "genericError": "Something went wrong.",
+    "saveNewPassword": "Save new password",
+    "backToHome": "Back to home"
+  },
   "projectStatusPage": {
     "hero": {
       "kicker": "Aylopet",

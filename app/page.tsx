@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import dictEn from '@/lib/i18n/en.json';
@@ -300,10 +300,18 @@ export default function Home() {
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
   const [authError, setAuthError] = useState('');
+  const [authNotice, setAuthNotice] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [researchDragging, setResearchDragging] = useState(false);
+  const researchScrollRef = useRef<HTMLDivElement | null>(null);
+  const researchDragStartXRef = useRef(0);
+  const researchStartScrollLeftRef = useRef(0);
+  const researchIsDraggingRef = useRef(false);
+  const researchPauseUntilRef = useRef(0);
 
   const t = translations[lang];
+  const authCopy = (lang === 'GE' ? dictGe : dictEn).auth;
   const pathname = usePathname();
   const projectStatusLabel = navI18n[lang].projectStatus;
   const researchCards = [
@@ -358,6 +366,23 @@ export default function Home() {
   useEffect(() => {
     const s = localStorage.getItem(LANG_KEY);
     if (s === 'EN' || s === 'GE') setLang(s);
+  }, []);
+
+  useEffect(() => {
+    const el = researchScrollRef.current;
+    if (!el) return;
+
+    const tick = window.setInterval(() => {
+      const node = researchScrollRef.current;
+      if (!node) return;
+      if (researchIsDraggingRef.current || Date.now() <= researchPauseUntilRef.current) return;
+
+      node.scrollLeft += 1;
+      const half = node.scrollWidth / 2;
+      if (node.scrollLeft >= half - 1) node.scrollLeft -= half;
+    }, 16);
+
+    return () => window.clearInterval(tick);
   }, []);
 
   useEffect(() => {
@@ -569,6 +594,54 @@ export default function Home() {
     await supabase.auth.signOut();
   };
 
+  const handleResearchPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+    const el = researchScrollRef.current;
+    if (!el) return;
+    researchIsDraggingRef.current = true;
+    setResearchDragging(true);
+    researchPauseUntilRef.current = Date.now() + 5000;
+    researchDragStartXRef.current = e.clientX;
+    researchStartScrollLeftRef.current = el.scrollLeft;
+    el.setPointerCapture(e.pointerId);
+  };
+
+  const handleResearchPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!researchIsDraggingRef.current) return;
+    const el = researchScrollRef.current;
+    if (!el) return;
+    const delta = e.clientX - researchDragStartXRef.current;
+    el.scrollLeft = researchStartScrollLeftRef.current - delta;
+  };
+
+  const handleResearchPointerUp = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!researchIsDraggingRef.current) return;
+    const el = researchScrollRef.current;
+    if (el && el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    researchIsDraggingRef.current = false;
+    setResearchDragging(false);
+    researchPauseUntilRef.current = Date.now() + 3500;
+  };
+
+  const handleForgotPassword = async () => {
+    setAuthError('');
+    setAuthNotice('');
+    const email = authEmail.trim();
+    if (!email) {
+      setAuthError(authCopy.enterEmailForRecovery);
+      return;
+    }
+
+    try {
+      const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/reset-password` : undefined;
+      const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) throw error;
+      setAuthNotice(authCopy.resetLinkSent);
+    } catch (err: unknown) {
+      setAuthError(err instanceof Error ? err.message : 'Failed to send reset link.');
+    }
+  };
+
   return (
     <div className="min-h-screen w-full max-w-screen overflow-x-hidden bg-gradient-to-b from-[#f6f8f3] via-white to-[#eef2e7] text-slate-900">
       {/* Fixed Header (Banner + Nav) - no layout jump */}
@@ -594,7 +667,76 @@ export default function Home() {
               : 'bg-white/80 backdrop-blur-sm shadow-sm'
           }`}
         >
-          <div className="flex w-full items-center gap-4 px-4 py-3 sm:px-8">
+          <div className="lg:hidden px-3 py-2.5">
+            <nav className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap text-[11px] font-semibold text-slate-800">
+              <Link
+                href="/"
+                onClick={(e) => {
+                  if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-2.5 py-1.5 ring-1 ring-slate-200/80"
+              >
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-tr from-[#2D4F1E] to-[#8A9A5B] text-xs font-bold text-white">A</span>
+                <span className="text-[13px] font-semibold text-slate-900">Aylopet</span>
+              </Link>
+              {user ? (
+                <Link href="/profile" className="shrink-0 rounded-full bg-[#2D4F1E] px-2.5 py-1.5 text-white">
+                  {t.nav.myProfile}
+                </Link>
+              ) : (
+                <>
+                  <button onClick={() => setAuthOpen('login')} className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                    {t.nav.login}
+                  </button>
+                  <button onClick={() => setAuthOpen('signup')} className="shrink-0 rounded-full bg-[#2D4F1E] px-2.5 py-1.5 text-white">
+                    {t.nav.signup}
+                  </button>
+                </>
+              )}
+              <button
+                onClick={() => {
+                  const next = lang === 'GE' ? 'EN' : 'GE';
+                  setLang(next);
+                  localStorage.setItem(LANG_KEY, next);
+                  window.dispatchEvent(new CustomEvent('aylopet-lang-change'));
+                }}
+                className="shrink-0 rounded-full bg-[#eef2e7] px-2.5 py-1.5"
+              >
+                {lang === 'GE' ? 'EN' : 'GE'}
+              </button>
+              <Link href="/about#what-is" className="shrink-0 rounded-full bg-[#eef2e7] px-2.5 py-1.5 text-[#2D4F1E]">
+                {t.nav.about}
+              </Link>
+              <Link href="/products" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                {t.nav.products}
+              </Link>
+              <Link href="/products/pasteurized-raw" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                {t.nav.productsItems.pasteurizedRaw}
+              </Link>
+              <Link href="/products/why-healthy" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                {t.nav.productsItems.whyHealthy}
+              </Link>
+              <Link href="/faq" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                {t.nav.faq}
+              </Link>
+              <Link href="/project-status" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                {projectStatusLabel}
+              </Link>
+              <a href="/aylopetai-chat" className="shrink-0 rounded-full bg-[#2D4F1E] px-2.5 py-1.5 text-white">
+                {t.nav.ayloperChat}
+              </a>
+              {user && (
+                <button onClick={handleLogout} className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                  {t.nav.logout}
+                </button>
+              )}
+            </nav>
+          </div>
+
+          <div className="hidden w-full items-center gap-4 px-4 py-3 sm:px-8 lg:flex">
             {/* Logo + Nav (left-aligned) */}
             <div className="flex flex-grow items-center gap-4 lg:gap-6">
               <Link
@@ -781,6 +923,7 @@ export default function Home() {
             </div>
           </div>
         </header>
+
       </div>
 
       {/* Spacer to prevent layout jump */}
@@ -792,15 +935,25 @@ export default function Home() {
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-lg font-bold text-slate-900 mb-4">{authOpen === 'login' ? t.nav.login : t.nav.signup}</h2>
             <form onSubmit={handleAuth} className="space-y-4">
-              <input type="email" value={authEmail} onChange={(e) => setAuthEmail(e.target.value)} placeholder="Email" required className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none" />
-              <input type="password" value={authPassword} onChange={(e) => setAuthPassword(e.target.value)} placeholder="Password" required minLength={6} className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none" />
+              <input type="email" value={authEmail} onChange={(e) => setAuthEmail(e.target.value)} placeholder={authCopy.emailPlaceholder} required className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none" />
+              <input type="password" value={authPassword} onChange={(e) => setAuthPassword(e.target.value)} placeholder={authCopy.passwordPlaceholder} required minLength={6} className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none" />
+              {authOpen === 'login' && (
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
+                  className="text-xs font-medium text-[#2D4F1E] underline underline-offset-2 hover:text-[#253f18]"
+                >
+                  {authCopy.forgotPassword}
+                </button>
+              )}
               {authError && <p className="text-sm text-red-600">{authError}</p>}
+              {authNotice && <p className="text-sm text-emerald-700">{authNotice}</p>}
               <div className="flex gap-2">
                 <button type="submit" disabled={authLoading} className="flex-1 rounded-xl bg-[#2D4F1E] px-4 py-3 text-sm font-semibold text-white hover:bg-[#253f18] disabled:opacity-50">
                   {authLoading ? '...' : (authOpen === 'login' ? t.nav.login : t.nav.signup)}
                 </button>
                 <button type="button" onClick={() => setAuthOpen(null)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                  Cancel
+                  {authCopy.cancel}
                 </button>
               </div>
             </form>
@@ -815,7 +968,7 @@ export default function Home() {
           <img
             src="/hero-dog.jpg.png"
             alt="Healthy dog - Aylopet premium nutrition"
-            className="h-full w-full object-cover object-[center_74%] sm:object-[center_72%] lg:object-[center_68%]"
+            className="hero-image-focus hero-image-focus--balanced h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-[#1f2f1c]/70 to-black/50" />
         </div>
@@ -869,8 +1022,21 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">{t.research.firstInGeo}</h2>
           </div>
 
-          <div className="research-marquee-wrapper overflow-hidden rounded-3xl border border-[#dde6cf] bg-gradient-to-b from-[#f9fbf5] to-[#eef4e3] px-3 py-4 sm:px-4 sm:py-5 [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
-            <div className="research-marquee-track flex w-max gap-4 sm:gap-5">
+          <div
+            ref={researchScrollRef}
+            onPointerDown={handleResearchPointerDown}
+            onPointerMove={handleResearchPointerMove}
+            onPointerUp={handleResearchPointerUp}
+            onPointerCancel={handleResearchPointerUp}
+            onTouchStart={() => {
+              researchPauseUntilRef.current = Date.now() + 5000;
+            }}
+            onTouchEnd={() => {
+              researchPauseUntilRef.current = Date.now() + 3000;
+            }}
+            className={`research-marquee-wrapper overflow-x-auto rounded-3xl border border-[#dde6cf] bg-gradient-to-b from-[#f9fbf5] to-[#eef4e3] px-3 py-4 sm:px-4 sm:py-5 [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${researchDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+          >
+            <div className="flex w-max gap-4 sm:gap-5">
               {[...researchCards, ...researchCards].map((card, index) => {
                 const Icon = card.icon;
                 const LinkIcon = card.link?.icon;
@@ -982,7 +1148,7 @@ export default function Home() {
                                 {replySubmitting ? t.reviews.posting : t.reviews.postReply}
                               </button>
                               <button type="button" onClick={() => { setReplyingTo(null); setReplyBody(''); }} className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50">
-                                Cancel
+                                {authCopy.cancel}
                               </button>
                             </div>
                           </div>
@@ -1056,7 +1222,7 @@ export default function Home() {
                     {reviewSubmitting ? t.reviews.submitting : t.reviews.submit}
                   </button>
                   <button type="button" onClick={() => setReviewModalOpen(false)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                    Cancel
+                    {authCopy.cancel}
                   </button>
                 </div>
               </form>

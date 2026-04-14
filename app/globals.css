@@ -77,3 +77,89 @@ html[data-lang="GE"] body * {
   font-family: Arial, sans-serif !important;
   text-transform: uppercase !important;
 }
+
+/* Hero image presets:
+   - hero-image-focus--balanced (default)
+   - hero-image-focus--dog-priority
+   - hero-image-focus--bowl-priority
+   Switch preset by changing the class in app/page.tsx */
+
+/* Balanced preset */
+.hero-image-focus--balanced {
+  object-position: 74% 62%;
+}
+
+/* Dog-priority preset (more face/body in frame) */
+.hero-image-focus--dog-priority {
+  object-position: 66% 54%;
+}
+
+/* Bowl-priority preset (more bottom-right bowl visibility) */
+.hero-image-focus--bowl-priority {
+  object-position: 80% 70%;
+}
+
+/* iPhone SE/mini, small Android */
+@media (max-width: 390px) {
+  .hero-image-focus--balanced {
+    object-position: 76% 61%;
+  }
+  .hero-image-focus--dog-priority {
+    object-position: 68% 53%;
+  }
+  .hero-image-focus--bowl-priority {
+    object-position: 82% 70%;
+  }
+}
+
+/* iPhone 12/13/14/15 + most 6.1" Android */
+@media (min-width: 391px) and (max-width: 430px) {
+  .hero-image-focus--balanced {
+    object-position: 74% 62%;
+  }
+  .hero-image-focus--dog-priority {
+    object-position: 66% 54%;
+  }
+  .hero-image-focus--bowl-priority {
+    object-position: 80% 70%;
+  }
+}
+
+/* Pro Max / Plus / large Android phones */
+@media (min-width: 431px) and (max-width: 767px) {
+  .hero-image-focus--balanced {
+    object-position: 72% 62%;
+  }
+  .hero-image-focus--dog-priority {
+    object-position: 64% 55%;
+  }
+  .hero-image-focus--bowl-priority {
+    object-position: 78% 70%;
+  }
+}
+
+/* Tablets portrait/landscape (iPad, Galaxy Tab, Xiaomi Pad) */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .hero-image-focus--balanced {
+    object-position: 68% 60%;
+  }
+  .hero-image-focus--dog-priority {
+    object-position: 60% 54%;
+  }
+  .hero-image-focus--bowl-priority {
+    object-position: 74% 67%;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1280px) {
+  .hero-image-focus--balanced {
+    object-position: center 68%;
+  }
+  .hero-image-focus--dog-priority {
+    object-position: center 60%;
+  }
+  .hero-image-focus--bowl-priority {
+    object-position: 58% 74%;
+  }
+}

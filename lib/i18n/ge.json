@@ -3,6 +3,24 @@
     "home": "მთავარი",
     "projectStatus": "პროექტის სტატუსი"
   },
+  "auth": {
+    "emailPlaceholder": "ელფოსტა",
+    "passwordPlaceholder": "პაროლი",
+    "cancel": "გაუქმება",
+    "forgotPassword": "დაგავიწყდათ პაროლი?",
+    "enterEmailForRecovery": "ჯერ შეიყვანეთ ელფოსტა პაროლის აღსადგენად.",
+    "resetLinkSent": "პაროლის აღდგენის ბმული გამოგზავნილია ელფოსტაზე.",
+    "resetPageTitle": "პაროლის განახლება",
+    "resetPageSubtitle": "შეიყვანეთ ახალი პაროლი და დაადასტურეთ.",
+    "newPasswordPlaceholder": "ახალი პაროლი",
+    "confirmPasswordPlaceholder": "გაიმეორეთ პაროლი",
+    "passwordMinLength": "პაროლი მინიმუმ 6 სიმბოლო უნდა იყოს.",
+    "passwordsMismatch": "პაროლები არ ემთხვევა.",
+    "passwordUpdated": "პაროლი წარმატებით განახლდა.",
+    "genericError": "შეცდომა დაფიქსირდა.",
+    "saveNewPassword": "პაროლის შენახვა",
+    "backToHome": "მთავარზე დაბრუნება"
+  },
   "projectStatusPage": {
     "hero": {
       "kicker": "Aylopet",
