@@ -20,6 +20,8 @@ import {
   Truck,
   PawPrint,
   Chrome,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { Footer } from './components/Footer';
 
@@ -302,6 +304,8 @@ export default function Home() {
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
   const [authConfirmPassword, setAuthConfirmPassword] = useState('');
+  const [authShowPassword, setAuthShowPassword] = useState(false);
+  const [authShowConfirmPassword, setAuthShowConfirmPassword] = useState(false);
   const [authError, setAuthError] = useState('');
   const [authNotice, setAuthNotice] = useState('');
   const [authResendLoading, setAuthResendLoading] = useState(false);
@@ -804,6 +808,8 @@ export default function Home() {
     setAuthEmail('');
     setAuthPassword('');
     setAuthConfirmPassword('');
+    setAuthShowPassword(false);
+    setAuthShowConfirmPassword(false);
     setAuthError('');
     setAuthNotice('');
     setShowResendConfirmation(false);
@@ -1182,20 +1188,50 @@ export default function Home() {
 
               <form key={authOpen} onSubmit={handleAuth} autoComplete="on" className="mt-5 space-y-4">
                 <input type="email" name="email" autoComplete="email" spellCheck={false} autoCapitalize="none" value={authEmail} onChange={(e) => setAuthEmail(e.target.value)} placeholder={authCopy.emailPlaceholder} required className="w-full rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none focus:ring-2 focus:ring-[#2D4F1E]/15" />
-                <input type="password" name={authOpen === 'signup' ? 'new-password' : 'current-password'} autoComplete={authOpen === 'signup' ? 'new-password' : 'current-password'} value={authPassword} onChange={(e) => setAuthPassword(e.target.value)} placeholder={authCopy.passwordPlaceholder} required minLength={6} className="w-full rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none focus:ring-2 focus:ring-[#2D4F1E]/15" />
+                <div className="relative">
+                  <input
+                    type={authShowPassword ? 'text' : 'password'}
+                    name={authOpen === 'signup' ? 'new-password' : 'current-password'}
+                    autoComplete={authOpen === 'signup' ? 'new-password' : 'current-password'}
+                    value={authPassword}
+                    onChange={(e) => setAuthPassword(e.target.value)}
+                    placeholder={authCopy.passwordPlaceholder}
+                    required
+                    minLength={6}
+                    className="w-full rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none focus:ring-2 focus:ring-[#2D4F1E]/15"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setAuthShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                    aria-label={authShowPassword ? (lang === 'GE' ? 'პაროლის დამალვა' : 'Hide password') : (lang === 'GE' ? 'პაროლის ჩვენება' : 'Show password')}
+                  >
+                    {authShowPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
                 {authOpen === 'signup' && (
                   <>
-                    <input
-                      type="password"
-                      name="confirm-password"
-                      autoComplete="new-password"
-                      value={authConfirmPassword}
-                      onChange={(e) => setAuthConfirmPassword(e.target.value)}
-                      placeholder={authCopy.confirmPasswordPlaceholder}
-                      required
-                      minLength={6}
-                      className="w-full rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none focus:ring-2 focus:ring-[#2D4F1E]/15"
-                    />
+                    <div className="relative">
+                      <input
+                        type={authShowConfirmPassword ? 'text' : 'password'}
+                        name="confirm-password"
+                        autoComplete="new-password"
+                        value={authConfirmPassword}
+                        onChange={(e) => setAuthConfirmPassword(e.target.value)}
+                        placeholder={authCopy.confirmPasswordPlaceholder}
+                        required
+                        minLength={6}
+                        className="w-full rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none focus:ring-2 focus:ring-[#2D4F1E]/15"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setAuthShowConfirmPassword((prev) => !prev)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                        aria-label={authShowConfirmPassword ? (lang === 'GE' ? 'პაროლის დამალვა' : 'Hide password') : (lang === 'GE' ? 'პაროლის ჩვენება' : 'Show password')}
+                      >
+                        {authShowConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         type="button"

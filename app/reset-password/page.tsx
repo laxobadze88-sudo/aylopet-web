@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import dictEn from '@/lib/i18n/en.json';
 import dictGe from '@/lib/i18n/ge.json';
@@ -15,6 +16,8 @@ export default function ResetPasswordPage() {
   const [lang, setLang] = useState<Lang>('GE');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(false);
@@ -90,6 +93,18 @@ export default function ResetPasswordPage() {
       setError(authCopy.passwordMinLength);
       return;
     }
+    if (!/[A-Z]/.test(password)) {
+      setError(authCopy.passwordNeedsUppercase);
+      return;
+    }
+    if (!/[0-9]/.test(password)) {
+      setError(authCopy.passwordNeedsDigit);
+      return;
+    }
+    if (!/[^A-Za-z0-9]/.test(password)) {
+      setError(authCopy.passwordNeedsSpecial);
+      return;
+    }
     if (password !== confirmPassword) {
       setError(authCopy.passwordsMismatch);
       return;
@@ -120,24 +135,45 @@ export default function ResetPasswordPage() {
         </p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder={authCopy.newPasswordPlaceholder}
-            minLength={6}
-            required
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none"
-          />
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder={authCopy.confirmPasswordPlaceholder}
-            minLength={6}
-            required
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={authCopy.newPasswordPlaceholder}
+              minLength={6}
+              required
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+              aria-label={showPassword ? (lang === 'GE' ? 'პაროლის დამალვა' : 'Hide password') : (lang === 'GE' ? 'პაროლის ჩვენება' : 'Show password')}
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder={authCopy.confirmPasswordPlaceholder}
+              minLength={6}
+              required
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+              aria-label={showConfirmPassword ? (lang === 'GE' ? 'პაროლის დამალვა' : 'Hide password') : (lang === 'GE' ? 'პაროლის ჩვენება' : 'Show password')}
+            >
+              {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+          <p className="text-xs text-slate-500">{authCopy.passwordRulesHint}</p>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
           {notice && <p className="text-sm text-emerald-700">{notice}</p>}

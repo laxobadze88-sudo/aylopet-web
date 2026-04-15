@@ -30,6 +30,8 @@
     "passwordNeedsDigit": "Password must include at least one digit.",
     "passwordNeedsSpecial": "Password must include at least one special character.",
     "passwordRulesHint": "Min 6 characters, with uppercase, digit, and special character.",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "passwordsMismatch": "Passwords do not match.",
     "passwordUpdated": "Password updated successfully.",
     "genericError": "Something went wrong.",

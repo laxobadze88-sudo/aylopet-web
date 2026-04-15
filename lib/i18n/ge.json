@@ -30,6 +30,8 @@
     "passwordNeedsDigit": "პაროლში მინიმუმ ერთი ციფრი აუცილებელია.",
     "passwordNeedsSpecial": "პაროლში მინიმუმ ერთი სპეციალური სიმბოლო აუცილებელია.",
     "passwordRulesHint": "მინ. 6 სიმბოლო, დიდი ასო, ციფრი და სპეციალური სიმბოლო.",
+    "showPassword": "პაროლის ჩვენება",
+    "hidePassword": "პაროლის დამალვა",
     "passwordsMismatch": "პაროლები არ ემთხვევა.",
     "passwordUpdated": "პაროლი წარმატებით განახლდა.",
     "genericError": "შეცდომა დაფიქსირდა.",
