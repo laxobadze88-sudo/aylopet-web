@@ -18,6 +18,8 @@ import {
   BadgeCheck,
   Sparkles,
   Truck,
+  PawPrint,
+  Chrome,
 } from 'lucide-react';
 import { Footer } from './components/Footer';
 
@@ -299,8 +301,11 @@ export default function Home() {
   const [reviewToast, setReviewToast] = useState<string | null>(null);
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
+  const [authConfirmPassword, setAuthConfirmPassword] = useState('');
   const [authError, setAuthError] = useState('');
   const [authNotice, setAuthNotice] = useState('');
+  const [authResendLoading, setAuthResendLoading] = useState(false);
+  const [showResendConfirmation, setShowResendConfirmation] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [researchDragging, setResearchDragging] = useState(false);
@@ -548,9 +553,35 @@ export default function Home() {
   const handleAuth = async (e: FormEvent) => {
     e.preventDefault();
     setAuthError('');
+    setAuthNotice('');
     setAuthLoading(true);
     try {
       if (authOpen === 'signup') {
+        const emailCheck = await validateEmailQuality(authEmail);
+        if (!emailCheck.ok) {
+          setAuthError(toEmailValidationMessage(emailCheck.reason));
+          return;
+        }
+        if (authPassword.length < 6) {
+          setAuthError(authCopy.passwordMinLength);
+          return;
+        }
+        if (!/[A-Z]/.test(authPassword)) {
+          setAuthError(authCopy.passwordNeedsUppercase);
+          return;
+        }
+        if (!/[0-9]/.test(authPassword)) {
+          setAuthError(authCopy.passwordNeedsDigit);
+          return;
+        }
+        if (!/[^A-Za-z0-9]/.test(authPassword)) {
+          setAuthError(authCopy.passwordNeedsSpecial);
+          return;
+        }
+        if (authPassword !== authConfirmPassword) {
+          setAuthError(authCopy.passwordsMismatch);
+          return;
+        }
         const { data, error } = await supabase.auth.signUp({ email: authEmail, password: authPassword });
         if (error) throw error;
         if (data.user && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('auth') === 'signup') {
@@ -562,9 +593,10 @@ export default function Home() {
           window.location.href = '/profile';
           return;
         }
-        setAuthOpen(null);
-        setAuthEmail('');
         setAuthPassword('');
+        setAuthConfirmPassword('');
+        setAuthNotice(`${authCopy.confirmationSent} ${authCopy.checkInboxHint}`);
+        setShowResendConfirmation(true);
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email: authEmail, password: authPassword });
         if (error) throw error;
@@ -582,9 +614,12 @@ export default function Home() {
         setAuthOpen(null);
         setAuthEmail('');
         setAuthPassword('');
+        setAuthConfirmPassword('');
+        setAuthNotice('');
+        setShowResendConfirmation(false);
       }
     } catch (err: unknown) {
-      setAuthError(err instanceof Error ? err.message : 'Failed');
+      setAuthError(localizeAuthError(err));
     } finally {
       setAuthLoading(false);
     }
@@ -592,6 +627,37 @@ export default function Home() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+  };
+
+  const localizeAuthError = (err: unknown): string => {
+    if (!(err instanceof Error)) return authCopy.genericError;
+    const msg = err.message.toLowerCase();
+    if (msg.includes('invalid login credentials')) return authCopy.invalidLoginCredentials;
+    if (msg.includes('email not confirmed')) return authCopy.emailNotConfirmed;
+    if (msg.includes('too many requests') || msg.includes('rate limit')) return authCopy.rateLimitExceeded;
+    return err.message;
+  };
+
+  const validateEmailQuality = async (email: string): Promise<{ ok: boolean; reason?: string }> => {
+    const normalized = email.trim().toLowerCase();
+    const basicEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!basicEmailRegex.test(normalized)) return { ok: false, reason: 'invalid_format' };
+
+    try {
+      const res = await fetch(`/api/validate-email?email=${encodeURIComponent(normalized)}`);
+      if (!res.ok) return { ok: false, reason: 'domain_unreachable' };
+      const payload = (await res.json()) as { ok: boolean; reason?: string };
+      return payload.ok ? { ok: true } : { ok: false, reason: payload.reason };
+    } catch {
+      return { ok: false, reason: 'domain_unreachable' };
+    }
+  };
+
+  const toEmailValidationMessage = (reason?: string): string => {
+    if (reason === 'invalid_format') return authCopy.invalidEmailFormat;
+    if (reason === 'disposable_domain') return authCopy.disposableEmailBlocked;
+    if (reason === 'recent_bounce') return authCopy.emailPreviouslyBounced;
+    return authCopy.emailDomainUnreachable;
   };
 
   const handleResearchPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -632,14 +698,94 @@ export default function Home() {
       return;
     }
 
+    const emailCheck = await validateEmailQuality(email);
+    if (!emailCheck.ok) {
+      setAuthError(toEmailValidationMessage(emailCheck.reason));
+      return;
+    }
+
     try {
       const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/reset-password` : undefined;
       const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
       if (error) throw error;
-      setAuthNotice(authCopy.resetLinkSent);
+      setAuthNotice(`${authCopy.resetLinkSent} ${authCopy.checkInboxHint}`);
     } catch (err: unknown) {
-      setAuthError(err instanceof Error ? err.message : 'Failed to send reset link.');
+      setAuthError(err instanceof Error ? localizeAuthError(err) : authCopy.resetLinkFailed);
     }
+  };
+
+  const handleResendConfirmation = async () => {
+    setAuthError('');
+    setAuthNotice('');
+    const email = authEmail.trim();
+    if (!email) {
+      setAuthError(authCopy.enterEmailForRecovery);
+      return;
+    }
+
+    const emailCheck = await validateEmailQuality(email);
+    if (!emailCheck.ok) {
+      setAuthError(toEmailValidationMessage(emailCheck.reason));
+      return;
+    }
+
+    setAuthResendLoading(true);
+    try {
+      const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/` : undefined;
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: redirectTo ? { emailRedirectTo: redirectTo } : undefined,
+      });
+      if (error) throw error;
+      setAuthNotice(`${authCopy.resendConfirmationSent} ${authCopy.checkInboxHint}`);
+    } catch (err: unknown) {
+      setAuthError(localizeAuthError(err));
+    } finally {
+      setAuthResendLoading(false);
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    setAuthError('');
+    setAuthNotice('');
+    try {
+      const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/profile` : undefined;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: redirectTo ? { redirectTo } : undefined,
+      });
+      if (error) throw error;
+    } catch (err: unknown) {
+      setAuthError(localizeAuthError(err));
+    }
+  };
+
+  const generateStrongPassword = (): string => {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*';
+    const bytes = new Uint32Array(16);
+    crypto.getRandomValues(bytes);
+    let out = '';
+    for (let i = 0; i < bytes.length; i += 1) out += chars[bytes[i] % chars.length];
+    return out;
+  };
+
+  const handleGeneratePassword = () => {
+    const pwd = generateStrongPassword();
+    setAuthPassword(pwd);
+    setAuthConfirmPassword(pwd);
+    setAuthError('');
+    setAuthNotice(authCopy.generatedPasswordApplied);
+  };
+
+  const openAuthModal = (mode: 'login' | 'signup') => {
+    setAuthOpen(mode);
+    setAuthEmail('');
+    setAuthPassword('');
+    setAuthConfirmPassword('');
+    setAuthError('');
+    setAuthNotice('');
+    setShowResendConfirmation(false);
   };
 
   return (
@@ -688,10 +834,7 @@ export default function Home() {
                 </Link>
               ) : (
                 <>
-                  <button onClick={() => setAuthOpen('login')} className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
-                    {t.nav.login}
-                  </button>
-                  <button onClick={() => setAuthOpen('signup')} className="shrink-0 rounded-full bg-[#2D4F1E] px-2.5 py-1.5 text-white">
+                  <button onClick={() => openAuthModal('signup')} className="shrink-0 rounded-full bg-[#2D4F1E] px-2.5 py-1.5 text-white">
                     {t.nav.signup}
                   </button>
                 </>
@@ -710,9 +853,24 @@ export default function Home() {
               <Link href="/about#what-is" className="shrink-0 rounded-full bg-[#eef2e7] px-2.5 py-1.5 text-[#2D4F1E]">
                 {t.nav.about}
               </Link>
-              <Link href="/products" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
-                {t.nav.products}
-              </Link>
+              <label className="shrink-0 rounded-full px-2 py-1 hover:bg-[#eef2e7]">
+                <span className="sr-only">{t.nav.products}</span>
+                <select
+                  defaultValue=""
+                  onChange={(e) => {
+                    const next = e.target.value;
+                    if (next) window.location.href = next;
+                    e.currentTarget.value = '';
+                  }}
+                  className="cursor-pointer bg-transparent text-[11px] font-semibold text-slate-800 outline-none"
+                >
+                  <option value="" disabled>{t.nav.products}</option>
+                  <option value="/products/aylopet-ai">{t.nav.productsItems.ayloperAI}</option>
+                  <option value="/smart-collar">{t.nav.productsItems.smartCollar}</option>
+                  <option value="/products/pasteurized-raw">{t.nav.productsItems.pasteurizedRaw}</option>
+                  <option value="/products/why-healthy">{t.nav.productsItems.whyHealthy}</option>
+                </select>
+              </label>
               <Link href="/products/pasteurized-raw" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
                 {t.nav.productsItems.pasteurizedRaw}
               </Link>
@@ -731,6 +889,11 @@ export default function Home() {
               {user && (
                 <button onClick={handleLogout} className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
                   {t.nav.logout}
+                </button>
+              )}
+              {!user && (
+                <button onClick={() => openAuthModal('login')} className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                  {t.nav.login}
                 </button>
               )}
             </nav>
@@ -893,14 +1056,9 @@ export default function Home() {
                   {t.nav.myProfile}
                 </Link>
               ) : (
-                <>
-                  <button onClick={() => setAuthOpen('login')} className="inline-flex rounded-full px-3 py-1.5 text-xs font-semibold text-slate-900 transition hover:text-[#2D4F1E]">
-                    {t.nav.login}
-                  </button>
-                  <button onClick={() => setAuthOpen('signup')} className="inline-flex rounded-full bg-[#2D4F1E] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#253f18]">
-                    {t.nav.signup}
-                  </button>
-                </>
+                <button onClick={() => openAuthModal('signup')} className="inline-flex rounded-full bg-[#2D4F1E] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#253f18]">
+                  {t.nav.signup}
+                </button>
               )}
 
               <button
@@ -920,6 +1078,11 @@ export default function Home() {
                   {t.nav.logout}
                 </button>
               )}
+              {!user && (
+                <button onClick={() => openAuthModal('login')} className="inline-flex rounded-full px-3 py-1.5 text-xs font-semibold text-slate-900 transition hover:text-[#2D4F1E]">
+                  {t.nav.login}
+                </button>
+              )}
             </div>
           </div>
         </header>
@@ -931,32 +1094,138 @@ export default function Home() {
 
       {/* Auth Modal */}
       {authOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4" onClick={() => setAuthOpen(null)}>
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-lg font-bold text-slate-900 mb-4">{authOpen === 'login' ? t.nav.login : t.nav.signup}</h2>
-            <form onSubmit={handleAuth} className="space-y-4">
-              <input type="email" value={authEmail} onChange={(e) => setAuthEmail(e.target.value)} placeholder={authCopy.emailPlaceholder} required className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none" />
-              <input type="password" value={authPassword} onChange={(e) => setAuthPassword(e.target.value)} placeholder={authCopy.passwordPlaceholder} required minLength={6} className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none" />
-              {authOpen === 'login' && (
+        <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#eaf1e2] p-4 sm:p-6">
+          <div className="relative mx-auto flex min-h-[calc(100vh-2rem)] w-full max-w-6xl items-center justify-center overflow-hidden rounded-[2rem] border border-[#d4e3cb] bg-gradient-to-br from-[#f8fbf4] via-[#edf4e5] to-[#e4efda] px-4 py-8 shadow-[0_35px_90px_-60px_rgba(45,79,30,0.55)] sm:min-h-[calc(100vh-3rem)] sm:px-6">
+            <div className="pointer-events-none absolute -top-20 left-[8%] h-44 w-44 rounded-full bg-[#6f9d53]/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-16 right-[10%] h-48 w-48 rounded-full bg-[#355a2f]/15 blur-3xl" />
+
+            <div className="pointer-events-none absolute left-[6%] top-[11%] inline-flex -rotate-6 items-center gap-2 rounded-full border border-[#d4e3cc] bg-white/85 px-3.5 py-1.5 text-[12px] font-semibold text-[#355a2f] shadow-sm sm:text-[13px] lg:text-[14px]">
+              <PawPrint className="h-4 w-4 lg:h-[18px] lg:w-[18px]" />
+              Aylopet
+            </div>
+            <div className="pointer-events-none absolute right-[6%] top-[13%] inline-flex rotate-3 items-center gap-2 rounded-full border border-[#d4e3cc] bg-white/85 px-3.5 py-1.5 text-[12px] font-semibold text-[#355a2f] shadow-sm sm:text-[13px] lg:text-[14px]">
+              <PawPrint className="h-4 w-4 lg:h-[18px] lg:w-[18px]" />
+              Waitlist
+            </div>
+            <div className="pointer-events-none absolute bottom-[18%] left-[4%] inline-flex -rotate-2 items-center gap-2 rounded-full border border-[#d4e3cc] bg-white/85 px-3.5 py-1.5 text-[12px] font-semibold text-[#355a2f] shadow-sm sm:text-[13px] lg:text-[14px]">
+              <PawPrint className="h-4 w-4 lg:h-[18px] lg:w-[18px]" />
+              Early Bird
+            </div>
+            <div className="pointer-events-none absolute bottom-[18%] right-[4%] inline-flex rotate-2 items-center gap-2 rounded-full border border-[#d4e3cc] bg-white/85 px-3.5 py-1.5 text-[12px] font-semibold text-[#355a2f] shadow-sm sm:text-[13px] lg:text-[14px]">
+              <PawPrint className="h-4 w-4 lg:h-[18px] lg:w-[18px]" />
+              Honorary Ambassador
+            </div>
+
+            <div
+              className="relative w-full max-w-md overflow-hidden rounded-3xl border border-[#d6e1ce] bg-white/95 p-6 shadow-[0_30px_80px_-45px_rgba(45,79,30,0.65)] backdrop-blur-sm sm:p-7"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="mb-5 flex items-start justify-between gap-3">
+                <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#2d5a27] to-[#6f9d53] text-white shadow-md">
+                  <PawPrint className="h-5 w-5" />
+                </div>
                 <button
                   type="button"
-                  onClick={handleForgotPassword}
-                  className="text-xs font-medium text-[#2D4F1E] underline underline-offset-2 hover:text-[#253f18]"
+                  onClick={() => {
+                    const next = lang === 'GE' ? 'EN' : 'GE';
+                    setLang(next);
+                    localStorage.setItem(LANG_KEY, next);
+                    window.dispatchEvent(new CustomEvent('aylopet-lang-change'));
+                  }}
+                  className="rounded-full bg-[#eef2e7] px-3 py-1 text-[11px] font-semibold text-slate-800 transition hover:bg-[#e2e8d8]"
                 >
-                  {authCopy.forgotPassword}
-                </button>
-              )}
-              {authError && <p className="text-sm text-red-600">{authError}</p>}
-              {authNotice && <p className="text-sm text-emerald-700">{authNotice}</p>}
-              <div className="flex gap-2">
-                <button type="submit" disabled={authLoading} className="flex-1 rounded-xl bg-[#2D4F1E] px-4 py-3 text-sm font-semibold text-white hover:bg-[#253f18] disabled:opacity-50">
-                  {authLoading ? '...' : (authOpen === 'login' ? t.nav.login : t.nav.signup)}
-                </button>
-                <button type="button" onClick={() => setAuthOpen(null)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                  {authCopy.cancel}
+                  {lang === 'GE' ? 'EN' : 'GE'}
                 </button>
               </div>
-            </form>
+
+              <h2 className="font-serif text-2xl font-semibold tracking-tight text-[#213d19]">
+                {authOpen === 'login' ? t.nav.login : t.nav.signup}
+              </h2>
+
+              <div className="mt-4 inline-flex rounded-full bg-[#e8f0e1] p-1 ring-1 ring-[#d4e3cc]">
+                <button
+                  type="button"
+                  onClick={() => openAuthModal('login')}
+                  className={`rounded-full px-5 py-2 text-xs font-semibold transition ${authOpen === 'login' ? 'bg-white text-[#1f3f16] shadow-sm' : 'text-[#355a2f]'}`}
+                >
+                  {t.nav.login}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openAuthModal('signup')}
+                  className={`rounded-full px-5 py-2 text-xs font-semibold transition ${authOpen === 'signup' ? 'bg-white text-[#1f3f16] shadow-sm' : 'text-[#355a2f]'}`}
+                >
+                  {t.nav.signup}
+                </button>
+              </div>
+
+              <form key={authOpen} onSubmit={handleAuth} autoComplete="on" className="mt-5 space-y-4">
+                <input type="email" name="email" autoComplete="email" spellCheck={false} autoCapitalize="none" value={authEmail} onChange={(e) => setAuthEmail(e.target.value)} placeholder={authCopy.emailPlaceholder} required className="w-full rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none focus:ring-2 focus:ring-[#2D4F1E]/15" />
+                <input type="password" name={authOpen === 'signup' ? 'new-password' : 'current-password'} autoComplete={authOpen === 'signup' ? 'new-password' : 'current-password'} value={authPassword} onChange={(e) => setAuthPassword(e.target.value)} placeholder={authCopy.passwordPlaceholder} required minLength={6} className="w-full rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none focus:ring-2 focus:ring-[#2D4F1E]/15" />
+                {authOpen === 'signup' && (
+                  <>
+                    <input
+                      type="password"
+                      name="confirm-password"
+                      autoComplete="new-password"
+                      value={authConfirmPassword}
+                      onChange={(e) => setAuthConfirmPassword(e.target.value)}
+                      placeholder={authCopy.confirmPasswordPlaceholder}
+                      required
+                      minLength={6}
+                      className="w-full rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none focus:ring-2 focus:ring-[#2D4F1E]/15"
+                    />
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={handleGeneratePassword}
+                        className="inline-flex items-center rounded-full bg-[#edf4e6] px-3 py-1 text-xs font-medium text-[#2D4F1E] transition hover:bg-[#e2edda] hover:text-[#253f18]"
+                      >
+                        {authCopy.generateStrongPassword}
+                      </button>
+                      <span className="text-[11px] text-slate-500">{authCopy.passwordRulesHint}</span>
+                    </div>
+                  </>
+                )}
+                {authOpen === 'login' && (
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="inline-flex items-center rounded-full bg-[#edf4e6] px-3 py-1 text-xs font-medium text-[#2D4F1E] transition hover:bg-[#e2edda] hover:text-[#253f18]"
+                  >
+                    {authCopy.forgotPassword}
+                  </button>
+                )}
+                {authError && <p className="text-sm text-red-600">{authError}</p>}
+                {authNotice && <p className="text-sm text-emerald-700">{authNotice}</p>}
+                {authOpen === 'signup' && showResendConfirmation && (
+                  <button
+                    type="button"
+                    onClick={handleResendConfirmation}
+                    disabled={authResendLoading}
+                    className="inline-flex items-center rounded-full bg-[#edf4e6] px-3 py-1 text-xs font-medium text-[#2D4F1E] transition hover:bg-[#e2edda] hover:text-[#253f18] disabled:opacity-60"
+                  >
+                    {authResendLoading ? '...' : authCopy.resendConfirmation}
+                  </button>
+                )}
+                <div className="flex gap-2">
+                  <button type="submit" disabled={authLoading} className="flex-1 rounded-2xl bg-gradient-to-r from-[#2d5a27] to-[#3f7a35] px-4 py-3 text-sm font-semibold text-white shadow-md shadow-[#2D4F1E]/20 transition hover:brightness-95 disabled:opacity-50">
+                    {authLoading ? '...' : (authOpen === 'login' ? t.nav.login : t.nav.signup)}
+                  </button>
+                  <button type="button" onClick={() => setAuthOpen(null)} className="rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    {authCopy.cancel}
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleGoogleAuth}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-[#d9e5d3] bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+                >
+                  <Chrome className="h-4 w-4 text-[#2D4F1E]" />
+                  {authCopy.continueWithGoogle}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       )}
@@ -1229,7 +1498,7 @@ export default function Home() {
             ) : (
               <div className="text-center">
                 <p className="text-slate-600 text-sm mb-4">{t.reviews.signInToPost}</p>
-                <button type="button" onClick={() => { setReviewModalOpen(false); setAuthOpen('login'); }} className="rounded-xl bg-[#2d5a27] px-4 py-2 text-sm font-semibold text-white hover:bg-[#3a6b33]">
+                <button type="button" onClick={() => { setReviewModalOpen(false); openAuthModal('login'); }} className="rounded-xl bg-[#2d5a27] px-4 py-2 text-sm font-semibold text-white hover:bg-[#3a6b33]">
                   {t.nav.login}
                 </button>
               </div>

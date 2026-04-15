@@ -20,6 +20,15 @@ export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const authCopy = (lang === 'GE' ? dictGe : dictEn).auth;
 
+  const localizeAuthError = (err: unknown): string => {
+    if (!(err instanceof Error)) return authCopy.genericError;
+    const msg = err.message.toLowerCase();
+    if (msg.includes('invalid login credentials')) return authCopy.invalidLoginCredentials;
+    if (msg.includes('email not confirmed')) return authCopy.emailNotConfirmed;
+    if (msg.includes('too many requests') || msg.includes('rate limit')) return authCopy.rateLimitExceeded;
+    return err.message;
+  };
+
   useEffect(() => {
     const stored = localStorage.getItem(LANG_KEY);
     setLang(stored === 'EN' ? 'EN' : 'GE');
@@ -53,7 +62,7 @@ export default function ResetPasswordPage() {
       setNotice(authCopy.passwordUpdated);
       setTimeout(() => router.push('/'), 900);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : authCopy.genericError);
+      setError(localizeAuthError(err));
     } finally {
       setLoading(false);
     }

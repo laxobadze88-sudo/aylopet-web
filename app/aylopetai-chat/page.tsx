@@ -75,7 +75,7 @@ const translations: Record<Lang, Record<string, string>> = {
     stepMenuGreeting: '{userName}, სასიამოვნოა თქვენი გაცნობა. როგორ გსურთ ჩათის გაგრძელება?',
     menuBtnA: '🐾 შევქმნათ პერსონალიზირებული კვების რაციონი და პროფილი',
     menuBtnB: '✨ გახდი Honorary Ambassador 100-ის წევრი',
-    step2: 'სასიამოვნოა, {userName}! გთხოვთ, მიუთითოთ თქვენი მეილი და მობილურის ნომერი (ორივე აუცილებელია).',
+    step2: 'სასიამოვნოა, {userName}! გთხოვთ, მიუთითოთ თქვენი მეილი (სავალდებულო) და მობილურის ნომერი (არასავალდებულო).',
     stepCity: 'რომელ ქალაქში ცხოვრობთ თქვენ და თქვენი ოთხფეხა მეგობარი?',
     step3: 'რამდენი ძაღლი გყავთ?',
     dogName: 'რა ჰქვია თქვენს ოთხფეხა მეგობარს?',
@@ -104,7 +104,7 @@ const translations: Record<Lang, Record<string, string>> = {
     ambassadorPackage4: '🐕‍🦺 Smart Hardware — საჩუქრად ჭკვიანი ყელსაბამი + 6-თვიანი მომსახურება უფასოდ. (სტანდარტული ღირებულება: 25ლ/თვე — მოიცავს მონაცემთა ანალიტიკას და AI მხარდაჭერას)',
     ambassadorPackage5: '💎 Permanent Privilege — მაქსიმალური შეღავათები მომავალ ფუნქციონალებზე.',
     ambassadorCityQuestion: 'რომელ ქალაქში ცხოვრობთ?',
-    ambassadorContactStep: 'გთხოვთ, მიუთითოთ თქვენი მეილი და მობილურის ნომერი (ორივე აუცილებელია).',
+    ambassadorContactStep: 'გთხოვთ, მიუთითოთ თქვენი მეილი (სავალდებულო) და მობილურის ნომერი (არასავალდებულო).',
     cityWaitlistMsg: 'სამწუხაროდ, ამ ეტაპზე თქვენს ქალაქში მომსახურება ხელმისაწვდომი არ არის. თუმცა, თქვენ მოხვდით სპეციალურ 50-კაციან სიაში და პრივილეგიებით ისარგებლებთ როგორ კი თქვენს ლოკაციაზე შემოვალთ.',
     earlyBirdRedirectMsg: 'Honorary Ambassador 100-ის ყველა ადგილი დაკავებულია. თუმცა, შეგიძლიათ გახდეთ **Early Bird** წევრი და მიიღოთ 20%-იანი ფასდაკლება 6 თვის განმავლობაში.',
     priorityDone: 'მადლობა! თქვენ შეიყვანეთ პრიორიტეტულ სიაში. რეგისტრაციის შესასრულებლად გთხოვთ დააჭიროთ ქვემოთ მოცემულ ღილაკს.',
@@ -158,7 +158,7 @@ const translations: Record<Lang, Record<string, string>> = {
     stepMenuGreeting: '{userName}, nice to meet you. How would you like to proceed?',
     menuBtnA: '🐾 Create a personalized nutrition plan and profile',
     menuBtnB: '✨ Become an Honorary Ambassador 100 member',
-    step2: 'Nice to meet you, {userName}! Please provide your email and phone number (both required).',
+    step2: 'Nice to meet you, {userName}! Please provide your email (required) and phone number (optional).',
     stepCity: 'In which city are you and your four-legged friend located?',
     step3: 'How many dogs do you have?',
     dogName: "What is your four-legged friend's name?",
@@ -187,7 +187,7 @@ const translations: Record<Lang, Record<string, string>> = {
     ambassadorPackage4: '🐕‍🦺 Smart Hardware — Free smart collar + 6-month service. (Standard value: 25₾/month — includes data analytics and AI support)',
     ambassadorPackage5: '💎 Permanent Privilege — Maximum benefits on future features.',
     ambassadorCityQuestion: 'In which city do you live?',
-    ambassadorContactStep: 'Please provide your email and phone number (both required).',
+    ambassadorContactStep: 'Please provide your email (required) and phone number (optional).',
     cityWaitlistMsg: "Unfortunately, we don't have service in your city at this stage. However, you've joined our special 50-person list and will enjoy privileges as soon as we expand to your location.",
     earlyBirdRedirectMsg: 'All Honorary Ambassador 100 spots are taken. However, you can become an **Early Bird** member and receive a 20% discount for 6 months.',
     priorityDone: 'Thank you! You are on the priority list. Please click the button below to complete registration.',
@@ -494,8 +494,8 @@ export default function AylopetAIChatPage() {
     } else if (step === 'contact') {
       const email = tempInput.trim();
       const phone = (answers.phone || '').trim();
-      if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && phone) {
-        setAnswers((a) => ({ ...a, email }));
+      if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setAnswers((a) => ({ ...a, email, phone }));
         setTempInput('');
         setStep('city');
       }
@@ -1061,10 +1061,10 @@ export default function AylopetAIChatPage() {
   return (
     <div className="min-h-screen w-full bg-[#F5F5F0] bg-gradient-to-b from-[#D4E4D4] via-[#F5F5F0] to-[#F5F5F0] text-[#2D3A2D] selection:bg-[#2d5a27] selection:text-white">
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-[#D4E4D4] bg-white/90 backdrop-blur-sm px-4 py-3 shadow-sm">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 rounded-lg px-1 py-1 no-underline transition hover:bg-[#eef2e7]">
           <div className="h-8 w-8 rounded-lg bg-[#2d5a27] flex items-center justify-center font-bold text-white text-sm">A</div>
           <span className="text-sm font-semibold text-[#2D3A2D]">Aylopet · Smart Nutrition & Feeding</span>
-        </div>
+        </Link>
         <div className="flex items-center gap-2">
           {user && (
             <Link
@@ -1391,7 +1391,6 @@ export default function AylopetAIChatPage() {
                     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
                     const phone = (answers.phone || '').trim();
                     if (step === 'priority_contact') {
-                      if (!phone) return;
                       setAnswers((a) => ({ ...a, email, phone }));
                       setTempInput('');
                       if (ambassadorPath === 'early_bird') {
@@ -1423,8 +1422,7 @@ export default function AylopetAIChatPage() {
                   }}
                   disabled={
                     !tempInput.trim() ||
-                    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tempInput.trim()) ||
-                    !(answers.phone || '').trim()
+                    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tempInput.trim())
                   }
                   className="rounded-xl bg-[#2d5a27] px-6 py-3 font-semibold text-white disabled:opacity-50 hover:bg-[#3a6b33] disabled:hover:bg-[#2d5a27]"
                 >
