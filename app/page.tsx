@@ -1193,6 +1193,9 @@ export default function Home() {
                     type={authShowPassword ? 'text' : 'password'}
                     name={authOpen === 'signup' ? 'new-password' : 'current-password'}
                     autoComplete={authOpen === 'signup' ? 'new-password' : 'current-password'}
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
                     value={authPassword}
                     onChange={(e) => setAuthPassword(e.target.value)}
                     placeholder={authCopy.passwordPlaceholder}
@@ -1203,10 +1206,11 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => setAuthShowPassword((prev) => !prev)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                    className="absolute right-2 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-800"
                     aria-label={authShowPassword ? (lang === 'GE' ? 'პაროლის დამალვა' : 'Hide password') : (lang === 'GE' ? 'პაროლის ჩვენება' : 'Show password')}
                   >
                     {authShowPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    <span>{authShowPassword ? (lang === 'GE' ? 'დამალვა' : 'Hide') : (lang === 'GE' ? 'ჩვენება' : 'Show')}</span>
                   </button>
                 </div>
                 {authOpen === 'signup' && (
@@ -1216,6 +1220,9 @@ export default function Home() {
                         type={authShowConfirmPassword ? 'text' : 'password'}
                         name="confirm-password"
                         autoComplete="new-password"
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        spellCheck={false}
                         value={authConfirmPassword}
                         onChange={(e) => setAuthConfirmPassword(e.target.value)}
                         placeholder={authCopy.confirmPasswordPlaceholder}
@@ -1226,10 +1233,11 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={() => setAuthShowConfirmPassword((prev) => !prev)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                        className="absolute right-2 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-800"
                         aria-label={authShowConfirmPassword ? (lang === 'GE' ? 'პაროლის დამალვა' : 'Hide password') : (lang === 'GE' ? 'პაროლის ჩვენება' : 'Show password')}
                       >
                         {authShowConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        <span>{authShowConfirmPassword ? (lang === 'GE' ? 'დამალვა' : 'Hide') : (lang === 'GE' ? 'ჩვენება' : 'Show')}</span>
                       </button>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">

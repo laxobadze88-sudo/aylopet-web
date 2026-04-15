@@ -141,6 +141,9 @@ export default function ResetPasswordPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={authCopy.newPasswordPlaceholder}
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               minLength={6}
               required
               className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none"
@@ -148,10 +151,11 @@ export default function ResetPasswordPage() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+              className="absolute right-2 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-800"
               aria-label={showPassword ? (lang === 'GE' ? 'პაროლის დამალვა' : 'Hide password') : (lang === 'GE' ? 'პაროლის ჩვენება' : 'Show password')}
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              <span>{showPassword ? (lang === 'GE' ? 'დამალვა' : 'Hide') : (lang === 'GE' ? 'ჩვენება' : 'Show')}</span>
             </button>
           </div>
           <div className="relative">
@@ -160,6 +164,9 @@ export default function ResetPasswordPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder={authCopy.confirmPasswordPlaceholder}
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               minLength={6}
               required
               className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 focus:border-[#2D4F1E] focus:outline-none"
@@ -167,10 +174,11 @@ export default function ResetPasswordPage() {
             <button
               type="button"
               onClick={() => setShowConfirmPassword((prev) => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+              className="absolute right-2 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-800"
               aria-label={showConfirmPassword ? (lang === 'GE' ? 'პაროლის დამალვა' : 'Hide password') : (lang === 'GE' ? 'პაროლის ჩვენება' : 'Show password')}
             >
               {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              <span>{showConfirmPassword ? (lang === 'GE' ? 'დამალვა' : 'Hide') : (lang === 'GE' ? 'ჩვენება' : 'Show')}</span>
             </button>
           </div>
           <p className="text-xs text-slate-500">{authCopy.passwordRulesHint}</p>
