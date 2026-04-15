@@ -40,6 +40,47 @@ export default function ResetPasswordPage() {
     return () => window.removeEventListener('aylopet-lang-change', onLang);
   }, []);
 
+  useEffect(() => {
+    const bootstrapRecoverySession = async () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+      const type = searchParams.get('type') ?? hashParams.get('type');
+
+      if (type !== 'recovery') return;
+
+      const tokenHash = searchParams.get('token_hash');
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+
+      if (tokenHash) {
+        const { error: verifyError } = await supabase.auth.verifyOtp({
+          type: 'recovery',
+          token_hash: tokenHash,
+        });
+        if (verifyError) {
+          setError(localizeAuthError(verifyError));
+          return;
+        }
+      } else if (accessToken && refreshToken) {
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+        if (sessionError) {
+          setError(localizeAuthError(sessionError));
+          return;
+        }
+      }
+
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        setError(authCopy.resetLinkFailed);
+      }
+    };
+
+    bootstrapRecoverySession().catch(() => setError(authCopy.resetLinkFailed));
+  }, [authCopy.resetLinkFailed]);
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');

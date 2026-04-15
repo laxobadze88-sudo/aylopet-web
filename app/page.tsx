@@ -395,6 +395,23 @@ export default function Home() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('auth') === 'signup') setAuthOpen('signup');
   }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const searchParams = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const recoveryType = searchParams.get('type') ?? hashParams.get('type');
+    if (recoveryType !== 'recovery') return;
+
+    const target = new URL('/reset-password', window.location.origin);
+    for (const [key, value] of searchParams.entries()) {
+      target.searchParams.set(key, value);
+    }
+    const hashPayload = hashParams.toString();
+    if (hashPayload) target.hash = hashPayload;
+    window.location.replace(target.toString());
+  }, []);
+
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user: u } }) => setUser(u ? { id: u.id, email: u.email } : null));
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => setUser(session?.user ? { id: session.user.id, email: session.user.email } : null));
@@ -705,7 +722,11 @@ export default function Home() {
     }
 
     try {
-      const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/reset-password` : undefined;
+      const appOrigin =
+        typeof window !== 'undefined'
+          ? (process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, '') || window.location.origin)
+          : undefined;
+      const redirectTo = appOrigin ? `${appOrigin}/reset-password` : undefined;
       const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
       if (error) throw error;
       setAuthNotice(`${authCopy.resetLinkSent} ${authCopy.checkInboxHint}`);
