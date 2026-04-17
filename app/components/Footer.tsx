@@ -22,7 +22,7 @@ const footerTranslations: Record<Lang, Record<string, string>> = {
     whyHealthy: 'რატომ ჯანსაღი საკვები?',
     faq: 'FAQ',
     myProfile: 'ჩემი პროფილი',
-    supportEmailComing: 'მხარდაჭერის ელ.ფოსტა მალე დაემატება',
+    supportEmail: 'support@aylopet.com',
     forQuestions: 'კითხვებისთვის:',
     deliveryZones: 'მიტანის ზონები',
     privacy: 'Privacy',
@@ -44,7 +44,7 @@ const footerTranslations: Record<Lang, Record<string, string>> = {
     whyHealthy: 'Why Healthy Food?',
     faq: 'FAQ',
     myProfile: 'My Profile',
-    supportEmailComing: 'Support email coming soon',
+    supportEmail: 'support@aylopet.com',
     forQuestions: 'For questions:',
     deliveryZones: 'Delivery Zones',
     privacy: 'Privacy',
@@ -123,14 +123,27 @@ export function Footer() {
 
           <div>
             <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/80">{t.support}</h3>
-            <p className="mb-3 text-sm text-white/70">{t.supportEmailComing}</p>
+            <p className="mb-3 text-sm text-white/70">
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=support@aylopet.com&su=Aylopet%20Support"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/90 transition hover:text-white"
+              >
+                {t.supportEmail}
+              </a>
+            </p>
             <p className="text-sm text-white/70">
               {t.forQuestions}{' '}
               <a href="tel:+995595885625" className="text-white/90 transition hover:text-white">
                 +995 595 88 56 25
               </a>
             </p>
-            <p className="mt-3 text-sm text-white/70">{t.deliveryZones}</p>
+            <p className="mt-3 text-sm text-white/70">
+              <Link href="/delivery-zones" className="text-white/90 transition hover:text-white">
+                {t.deliveryZones}
+              </Link>
+            </p>
           </div>
         </div>
       </div>

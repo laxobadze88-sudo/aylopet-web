@@ -1,9 +1,10 @@
 import { supabase } from '@/lib/supabase';
 
 /**
- * Total profiles for "Founding 500": Honorary Ambassador (`ambassador`) plus
- * Early Bird family (`organic_eb`, `referral_eb`, `elite_eb`). Product tier
- * `early_bird` maps to these `referral_role` values in `profiles`.
+ * Founding 500 total (distinct users) via RPC.
+ * The SQL function should aggregate from BOTH:
+ * - profiles.referral_role (ambassador / organic_eb / referral_eb / elite_eb)
+ * - promo_codes.user_tier (honorary_ambassador / early_bird)
  * Requires RPC `get_founding_member_count` (see supabase/founding-500-count.sql)
  * so anon clients can read the aggregate under RLS.
  */

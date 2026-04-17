@@ -12,7 +12,7 @@ function parseWeight(row: Record<string, unknown>): number | null {
 }
 
 function parseTimestamp(row: Record<string, unknown>): string | null {
-  const raw = row.created_at ?? row.recorded_at ?? row.logged_at ?? row.date;
+  const raw = row.recorded_at ?? row.created_at ?? row.logged_at ?? row.date;
   if (typeof raw !== 'string' || !raw) return null;
   const time = new Date(raw);
   return Number.isNaN(time.getTime()) ? null : time.toISOString();
@@ -42,12 +42,25 @@ export async function appendWeightHistoryPoint(
 
 export async function fetchWeightTimeline(dogId: string): Promise<WeightTimelinePoint[]> {
   if (!dogId) return [];
-  const { data, error } = await supabase
-    .from('weight_history')
-    .select('*')
-    .eq('dog_id', dogId)
-    .order('created_at', { ascending: true })
-    .limit(5000);
+  let data: Record<string, unknown>[] | null = null;
+  let error: unknown = null;
+
+  // Some environments use `recorded_at`, others `created_at`.
+  // Try both order columns so timeline fetch stays resilient.
+  const orderCandidates: Array<'recorded_at' | 'created_at' | null> = ['recorded_at', 'created_at', null];
+  for (const orderBy of orderCandidates) {
+    let query = supabase.from('weight_history').select('*').eq('dog_id', dogId).limit(5000);
+    if (orderBy) {
+      query = query.order(orderBy, { ascending: true });
+    }
+    const result = await query;
+    if (!result.error && result.data) {
+      data = result.data as Record<string, unknown>[];
+      error = null;
+      break;
+    }
+    error = result.error;
+  }
 
   if (error || !data) return [];
 
