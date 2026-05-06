@@ -69,7 +69,6 @@ const copy: Record<Lang, Record<string, string>> = {
     "deletePasswordLabel": "შეიყვანეთ პაროლი დასადასტურებლად",
     "deleteConfirmLabel": "ვადასტურებ, რომ ეს ქმედება შეუქცევადია",
     "deleteAccountButton": "ექაუნთის წაშლა",
-    "cancel": "გაუქმება",
     "deleteCancel": "დახურვა",
     "deleteNoticeConfirm": "გთხოვთ ჩაწეროთ პაროლი და მონიშნოთ დადასტურება.",
     "deleting": "წაშლა მიმდინარეობს...",
