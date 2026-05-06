@@ -18,8 +18,8 @@ const footerTranslations: Record<Lang, Record<string, string>> = {
     vision: 'კომპანიის ხედვა',
     aylopetAI: 'AylopetAI',
     aylopetPro: 'Aylopet Pro',
-    pasteurized: 'პასტერიზებული ნატურალური და ფრეში საკვები',
-    whyHealthy: 'რატომ ჯანსაღი საკვები?',
+    pasteurized: 'ძაღლის ცოცხალი საკვები',
+    whyHealthy: 'რატომ ცოცხალი საკვები?',
     faq: 'FAQ',
     myProfile: 'ჩემი პროფილი',
     supportEmail: 'support@aylopet.com',
@@ -27,6 +27,7 @@ const footerTranslations: Record<Lang, Record<string, string>> = {
     deliveryZones: 'მიტანის ზონები',
     privacy: 'Privacy',
     terms: 'Terms',
+    cookies: 'Cookies',
     accessibility: 'Accessibility',
   },
   EN: {
@@ -40,7 +41,7 @@ const footerTranslations: Record<Lang, Record<string, string>> = {
     vision: 'Company Vision',
     aylopetAI: 'AylopetAI',
     aylopetPro: 'Aylopet Pro',
-    pasteurized: 'Pasteurized Natural and Fresh Food',
+    pasteurized: 'Fresh Dog Food',
     whyHealthy: 'Why Healthy Food?',
     faq: 'FAQ',
     myProfile: 'My Profile',
@@ -49,6 +50,7 @@ const footerTranslations: Record<Lang, Record<string, string>> = {
     deliveryZones: 'Delivery Zones',
     privacy: 'Privacy',
     terms: 'Terms',
+    cookies: 'Cookies',
     accessibility: 'Accessibility',
   },
 };
@@ -155,6 +157,9 @@ export function Footer() {
           </Link>
           <Link href="/terms" className="transition hover:text-white">
             {t.terms}
+          </Link>
+          <Link href="/cookies" className="transition hover:text-white">
+            {t.cookies}
           </Link>
           <Link href="/accessibility" className="transition hover:text-white">
             {t.accessibility}

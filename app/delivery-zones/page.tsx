@@ -111,7 +111,7 @@ export default function DeliveryZonesPage() {
   return (
     <main className="min-h-screen bg-[#f4f8f2] text-[#1f3320]">
       <header className="sticky top-0 z-40 border-b border-slate-100/80 bg-white/90 px-4 py-2.5 shadow-sm backdrop-blur-sm sm:px-6">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+        <div className="flex w-full items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2 text-slate-900 no-underline">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-tr from-[#2D4F1E] to-[#8A9A5B] text-xs font-bold text-white">A</span>
             <span className="text-sm font-semibold">Aylopet</span>

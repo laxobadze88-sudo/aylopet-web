@@ -70,6 +70,7 @@ const translations: Record<
         whyHealthy: string;
       };
       review: string;
+      knowledgeCenter: string;
       faq: string;
       ayloperChat: string;
       login: string;
@@ -142,12 +143,13 @@ const translations: Record<
       productsItems: {
         ayloperAI: 'AylopetAI',
         smartCollar: 'ჭკვიანი ყელსაბამი',
-        pasteurizedRaw: 'პასტერიზებული ნედლი საკვები',
-        whyHealthy: 'რატომ ჯანსაღი საკვები?',
+        pasteurizedRaw: 'ძაღლის ცოცხალი საკვები',
+        whyHealthy: 'რატომ ცოცხალი საკვები?',
       },
       review: 'შეფასებები',
+      knowledgeCenter: 'ცოდნის ცენტრი',
       faq: 'FAQ',
-      ayloperChat: 'AyloperAI Chat',
+      ayloperChat: 'AylopetAI',
       login: 'შესვლა',
       signup: 'რეგისტრაცია',
       myProfile: 'ჩემი პროფილი',
@@ -217,12 +219,13 @@ const translations: Record<
       productsItems: {
         ayloperAI: 'AylopetAI',
         smartCollar: 'Smart Collar',
-        pasteurizedRaw: 'Pasteurized Raw Food',
-        whyHealthy: 'Why Healthy Food?',
+        pasteurizedRaw: 'Fresh Dog Food',
+        whyHealthy: 'Why fresh food?',
       },
       review: 'Reviews',
+      knowledgeCenter: 'Knowledge Center',
       faq: 'FAQ',
-      ayloperChat: 'AyloperAI Chat',
+      ayloperChat: 'AylopetAI',
       login: 'Log in',
       signup: 'Sign up',
       myProfile: 'My Profile',
@@ -873,11 +876,11 @@ export default function Home() {
                   localStorage.setItem(LANG_KEY, next);
                   window.dispatchEvent(new CustomEvent('aylopet-lang-change'));
                 }}
-                className="shrink-0 rounded-full bg-[#eef2e7] px-2.5 py-1.5"
+                className="shrink-0 rounded-full bg-[#eef2e7] px-3 py-1 text-[11px] font-semibold text-slate-800 transition hover:bg-[#e2e8d8]"
               >
                 {lang === 'GE' ? 'EN' : 'GE'}
               </button>
-              <Link href="/about#what-is" className="shrink-0 rounded-full bg-[#eef2e7] px-2.5 py-1.5 text-[#2D4F1E]">
+              <Link href="/about#what-is" className="shrink-0 rounded-full px-2.5 py-1.5 text-[11px] font-semibold text-slate-900 transition hover:text-[#2D4F1E]">
                 {t.nav.about}
               </Link>
               <label className="shrink-0 rounded-full px-2 py-1 hover:bg-[#eef2e7]">
@@ -895,14 +898,16 @@ export default function Home() {
                   <option value="/products/aylopet-ai">{t.nav.productsItems.ayloperAI}</option>
                   <option value="/smart-collar">{t.nav.productsItems.smartCollar}</option>
                   <option value="/products/pasteurized-raw">{t.nav.productsItems.pasteurizedRaw}</option>
-                  <option value="/products/why-healthy">{t.nav.productsItems.whyHealthy}</option>
                 </select>
               </label>
+              <Link href="/products/why-healthy" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                {t.nav.productsItems.whyHealthy}
+              </Link>
               <Link href="/products/pasteurized-raw" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
                 {t.nav.productsItems.pasteurizedRaw}
               </Link>
-              <Link href="/products/why-healthy" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
-                {t.nav.productsItems.whyHealthy}
+              <Link href="/knowledge-center" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
+                {t.nav.knowledgeCenter}
               </Link>
               <Link href="/faq" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-[#eef2e7]">
                 {t.nav.faq}
@@ -926,7 +931,7 @@ export default function Home() {
             </nav>
           </div>
 
-          <div className="hidden w-full items-center gap-4 px-4 py-3 sm:px-8 lg:flex">
+          <div className="hidden w-full items-center gap-4 px-3 py-3 sm:px-5 lg:flex">
             {/* Logo + Nav (left-aligned) */}
             <div className="flex flex-grow items-center gap-4 lg:gap-6">
               <Link
@@ -948,9 +953,9 @@ export default function Home() {
               </Link>
 
               {/* Main nav - closer to logo */}
-              <nav className="hidden items-center justify-start gap-3 text-sm font-semibold text-slate-900 lg:flex">
+              <nav className="hidden items-center justify-start gap-1 text-[13px] font-semibold text-slate-900 lg:flex">
               <div className="group relative inline-block">
-                <button className="inline-flex items-center gap-1 whitespace-nowrap rounded-t-xl px-3 py-1.5 text-sm font-semibold text-slate-900 transition group-hover:bg-white group-hover:text-[#2D4F1E]">
+                <button className="inline-flex items-center gap-1 whitespace-nowrap rounded-t-xl px-2.5 py-1.5 text-[13px] font-semibold text-slate-900 transition group-hover:bg-white group-hover:text-[#2D4F1E]">
                   {t.nav.about}
                   <span className="text-xs transition group-hover:rotate-180">▾</span>
                 </button>
@@ -1000,7 +1005,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="group relative inline-block">
-                <button className="inline-flex items-center gap-1 whitespace-nowrap rounded-t-xl px-3 py-1.5 text-sm font-semibold text-slate-900 transition group-hover:bg-white group-hover:text-[#2D4F1E]">
+                <button className="inline-flex items-center gap-1 whitespace-nowrap rounded-t-xl px-2.5 py-1.5 text-[13px] font-semibold text-slate-900 transition group-hover:bg-white group-hover:text-[#2D4F1E]">
                   {t.nav.products}
                   <span className="text-xs transition group-hover:rotate-180">▾</span>
                 </button>
@@ -1030,30 +1035,28 @@ export default function Home() {
                         {t.nav.productsItems.pasteurizedRaw}
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        href="/products/why-healthy"
-                        className="block rounded-xl px-3 py-1.5 text-slate-700 no-underline transition hover:bg-[#eef2e7] hover:text-[#2D4F1E]"
-                      >
-                        {t.nav.productsItems.whyHealthy}
-                      </Link>
-                    </li>
                   </ul>
                 </div>
               </div>
+              <Link href="/products/why-healthy" className="whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-semibold text-slate-900 transition hover:text-[#2D4F1E]">
+                {t.nav.productsItems.whyHealthy}
+              </Link>
               <button
                 type="button"
                 onClick={() => document.getElementById('reviews-section')?.scrollIntoView({ behavior: 'smooth' })}
-                className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold text-slate-900 transition hover:text-[#2D4F1E]"
+                className="whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-semibold text-slate-900 transition hover:text-[#2D4F1E]"
               >
                 {t.nav.review}
               </button>
+              <Link href="/knowledge-center" className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold text-slate-900 transition hover:text-[#2D4F1E]">
+                {t.nav.knowledgeCenter}
+              </Link>
               <Link href="/faq" className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold text-slate-900 transition hover:text-[#2D4F1E]">
                 {t.nav.faq}
               </Link>
               <Link
                 href="/project-status"
-                className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold transition ${
+                className={`mr-2 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold transition lg:mr-4 ${
                   pathname === '/project-status'
                     ? 'bg-[#eef2e7] text-[#2D4F1E] ring-1 ring-[#2D4F1E]/20'
                     : 'text-slate-900 hover:text-[#2D4F1E]'
@@ -1072,18 +1075,17 @@ export default function Home() {
             <div className="flex flex-shrink-0 items-center gap-2 text-slate-900">
               <a
                 href="/aylopetai-chat"
-                className="hidden items-center gap-2 rounded-full bg-[#2D4F1E] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#2D4F1E]/40 transition hover:bg-[#253f18] sm:inline-flex"
+                className="hidden items-center gap-2 rounded-full bg-[#2D4F1E] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#2D4F1E]/40 transition hover:bg-[#253f18] sm:ml-1 sm:inline-flex lg:ml-2"
               >
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-tr from-[#8A9A5B] to-[#B2AC88] text-[10px] font-bold">AI</span>
                 {t.nav.ayloperChat}
               </a>
 
               {user ? (
-                <Link href="/profile" className="inline-flex rounded-full bg-[#2D4F1E] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#253f18]">
+                <Link href="/profile" className="inline-flex items-center rounded-full bg-[#2D4F1E] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#2D4F1E]/40 transition hover:bg-[#253f18]">
                   {t.nav.myProfile}
                 </Link>
               ) : (
-                <button onClick={() => openAuthModal('signup')} className="inline-flex rounded-full bg-[#2D4F1E] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#253f18]">
+                <button onClick={() => openAuthModal('signup')} className="inline-flex items-center rounded-full bg-[#2D4F1E] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#2D4F1E]/40 transition hover:bg-[#253f18]">
                   {t.nav.signup}
                 </button>
               )}

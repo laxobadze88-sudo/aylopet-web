@@ -61,7 +61,20 @@ const copy: Record<Lang, Record<string, string>> = {
     "reminderRule": "რემაინდერი: აცრებზე 2 კვირით ადრე, ჭიაზე 1 კვირით ადრე",
     "reminderAt": "რემაინდერის თარიღი",
     "dueSoon": "მალე გასაკეთებელია",
-    "enableReminders": "რემაინდერების ჩართვა"
+    "enableReminders": "რემაინდერების ჩართვა",
+    "deleteAccountTitle": "ექაუნთის წაშლა",
+    "deleteAccountDesc": "ეს ქმედება არის შეუქცევადი. წაშლის შემდეგ თქვენ ვერ შეძლებთ თქვენს მონაცემებზე ხელახლა წვდომას.",
+    "deleteAccountViaSupportDesc": "თუ ჯერ არ გაქვთ შექმნილი Aylopet-ის პროფილი, შეგიძლიათ მოითხოვოთ ექაუნთის წაშლა მხარდაჭერაზე წერილით.",
+    "requestDeletionSupport": "მოთხოვნის გაგზავნა მხარდაჭერაზე",
+    "deletePasswordLabel": "შეიყვანეთ პაროლი დასადასტურებლად",
+    "deleteConfirmLabel": "ვადასტურებ, რომ ეს ქმედება შეუქცევადია",
+    "deleteAccountButton": "ექაუნთის წაშლა",
+    "cancel": "გაუქმება",
+    "deleteCancel": "დახურვა",
+    "deleteNoticeConfirm": "გთხოვთ ჩაწეროთ პაროლი და მონიშნოთ დადასტურება.",
+    "deleting": "წაშლა მიმდინარეობს...",
+    "deleteSuccess": "ექაუნთი წარმატებით წაიშალა.",
+    "deleteError": "ექაუნთის წაშლა ვერ მოხერხდა. სცადეთ თავიდან."
   },
   EN: {
     "home": "Home",
@@ -111,7 +124,19 @@ const copy: Record<Lang, Record<string, string>> = {
     "reminderRule": "Reminder: 2 weeks before vaccines, 1 week before deworming",
     "reminderAt": "Reminder date",
     "dueSoon": "Due soon",
-    "enableReminders": "Enable reminders"
+    "enableReminders": "Enable reminders",
+    "deleteAccountTitle": "Delete account",
+    "deleteAccountDesc": "This action is irreversible. After deletion, you will no longer be able to access your data.",
+    "deleteAccountViaSupportDesc": "If you haven’t created your Aylopet profile yet, you can request account deletion by emailing support.",
+    "requestDeletionSupport": "Request via support email",
+    "deletePasswordLabel": "Enter your password to confirm",
+    "deleteConfirmLabel": "I understand this action is irreversible",
+    "deleteAccountButton": "Delete account",
+    "deleteCancel": "Close",
+    "deleteNoticeConfirm": "Please enter your password and confirm the checkbox.",
+    "deleting": "Deleting account...",
+    "deleteSuccess": "Your account was deleted successfully.",
+    "deleteError": "Could not delete your account. Please try again."
   },
 };
 
@@ -290,6 +315,11 @@ export default function ProfilePage() {
   const [photoUploading, setPhotoUploading] = useState(false);
   const [savingWeight, setSavingWeight] = useState(false);
   const [inlineNotice, setInlineNotice] = useState<string | null>(null);
+  const [deleteAccountOpen, setDeleteAccountOpen] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteConfirmed, setDeleteConfirmed] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
+  const [deleteNotice, setDeleteNotice] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<SectionKey>('account');
   const [editingAccount, setEditingAccount] = useState(false);
   const [accountNameDraft, setAccountNameDraft] = useState('');
@@ -462,6 +492,58 @@ export default function ProfilePage() {
       deworming: { id: '', dog_id: '', record_type: 'deworming', last_done_date: null, next_due_date: null, notes: null },
       complex: { id: '', dog_id: '', record_type: 'complex', last_done_date: null, next_due_date: null, notes: null },
     });
+  };
+
+  const getSupportDeletionMailUrl = () => {
+    const to = 'support@aylopet.com';
+    const subject = lang === 'GE' ? 'ექაუნთის წაშლის მოთხოვნა' : 'Account deletion request';
+    const body =
+      lang === 'GE'
+        ? `გამარჯობა,\n\nმინდა ჩემი Aylopet ექაუნთის წაშლა.\n\nელ.ფოსტა: ${email ?? '—'}\n\nმადლობა.`
+        : `Hello,\n\nI would like to request account deletion for my Aylopet account.\n\nEmail: ${email ?? '—'}\n\nThank you.`;
+    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+      body
+    )}`;
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeleteNotice(null);
+    if (!deletePassword.trim()) {
+      setDeleteNotice(c.deleteNoticeConfirm);
+      return;
+    }
+    if (!deleteConfirmed) {
+      setDeleteNotice(c.deleteNoticeConfirm);
+      return;
+    }
+    if (!userId) return;
+
+    setDeletingAccount(true);
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+      if (!accessToken) throw new Error('No active session');
+
+      const res = await fetch('/api/account/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ password: deletePassword }),
+      });
+
+      const json = (await res.json()) as { ok?: boolean; error?: string };
+      if (!res.ok || !json.ok) throw new Error(json.error || c.deleteError);
+
+      await supabase.auth.signOut();
+      window.location.href = '/';
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setDeleteNotice(msg || c.deleteError);
+    } finally {
+      setDeletingAccount(false);
+    }
   };
 
   useEffect(() => {
@@ -906,6 +988,127 @@ export default function ProfilePage() {
                     </button>
                   </div>
                 </div>
+
+                {hasActiveProfile ? (
+                  <div className="mt-4 rounded-2xl border border-[#e7d7cc] bg-gradient-to-r from-[#fff8f4] via-[#fffdfb] to-[#fff8f4] p-4 shadow-sm">
+                    <h3 className="text-sm font-semibold text-[#7a2f1f]">{c.deleteAccountTitle}</h3>
+                    <p className="mt-1 text-sm text-[#8b3f2f]/90">{c.deleteAccountDesc}</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setDeleteAccountOpen(true);
+                        setDeletePassword('');
+                        setDeleteConfirmed(false);
+                        setDeleteNotice(null);
+                      }}
+                      disabled={deletingAccount}
+                      className="mt-3 inline-flex items-center justify-center rounded-xl bg-[#c83e24] px-4 py-2 text-sm font-semibold text-white shadow-[0_8px_16px_rgba(144,48,28,0.24)] transition hover:bg-[#b6341b] disabled:opacity-60"
+                    >
+                      {c.deleteAccountButton}
+                    </button>
+                    {deleteNotice && <p className="mt-2 text-xs font-medium text-[#8b3f2f]">{deleteNotice}</p>}
+                  </div>
+                ) : (
+                  <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">
+                    <h3 className="text-sm font-semibold text-[#2D3A2D]">{c.deleteAccountTitle}</h3>
+                    <p className="mt-1 text-sm text-slate-600">{c.deleteAccountViaSupportDesc}</p>
+                    <a
+                      href={getSupportDeletionMailUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center justify-center rounded-lg bg-[#2d5a27] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#3a6b33]"
+                    >
+                      {c.requestDeletionSupport}
+                    </a>
+                  </div>
+                )}
+
+                {deleteAccountOpen && (
+                  <div
+                    className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 p-4"
+                    role="dialog"
+                    aria-modal="true"
+                    onClick={() => {
+                      setDeleteAccountOpen(false);
+                      setDeleteNotice(null);
+                    }}
+                  >
+                    <div
+                      className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <h3 className="text-base font-bold text-slate-900">{c.deleteAccountTitle}</h3>
+                          <p className="mt-2 text-sm text-slate-600">{c.deleteAccountDesc}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setDeleteAccountOpen(false);
+                            setDeleteNotice(null);
+                          }}
+                          className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                        >
+                          {c.deleteCancel}
+                        </button>
+                      </div>
+
+                      <form
+                        className="mt-5 space-y-4"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          handleDeleteAccount().catch(() => {});
+                        }}
+                      >
+                        <label className="block">
+                          <span className="mb-1 block text-xs font-semibold text-slate-600">{c.deletePasswordLabel}</span>
+                          <input
+                            type="password"
+                            value={deletePassword}
+                            onChange={(e) => setDeletePassword(e.target.value)}
+                            className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#2d5a27] focus:outline-none"
+                            placeholder={lang === 'GE' ? 'პაროლი' : 'Password'}
+                            autoComplete="current-password"
+                            required
+                          />
+                        </label>
+
+                        <label className="flex items-start gap-2">
+                          <input
+                            type="checkbox"
+                            checked={deleteConfirmed}
+                            onChange={(e) => setDeleteConfirmed(e.target.checked)}
+                            className="mt-1 h-4 w-4 rounded border-slate-200 text-[#2d5a27] focus:ring-[#2d5a27]"
+                          />
+                          <span className="text-xs leading-5 text-slate-600">{c.deleteConfirmLabel}</span>
+                        </label>
+
+                        {deleteNotice && <p className="text-xs font-medium text-red-700">{deleteNotice}</p>}
+
+                        <div className="flex gap-2 pt-1">
+                          <button
+                            type="submit"
+                            disabled={deletingAccount || !deleteConfirmed || !deletePassword.trim()}
+                            className="flex-1 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-60"
+                          >
+                            {deletingAccount ? c.deleting : c.deleteAccountButton}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setDeleteAccountOpen(false);
+                              setDeleteNotice(null);
+                            }}
+                            className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                          >
+                            {c.deleteCancel}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
 
                 <div className="mt-5 rounded-xl border border-[#e2ebdb] bg-[#fbfdf8] p-4">
                   <h3 className="text-sm font-semibold text-[#2D3A2D]">{c.promoTitle}</h3>
