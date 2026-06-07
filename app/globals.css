@@ -78,6 +78,9 @@ html[data-lang="GE"] body * {
   text-transform: uppercase !important;
 }
 
+html[data-lang="GE"] .lang-en { display: none !important; }
+html[data-lang="EN"] .lang-ge { display: none !important; }
+
 /* Hero image presets:
    - hero-image-focus--balanced (default)
    - hero-image-focus--dog-priority
